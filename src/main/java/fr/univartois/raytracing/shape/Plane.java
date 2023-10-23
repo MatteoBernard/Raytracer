@@ -6,7 +6,7 @@ import fr.univartois.raytracing.numeric.Vector;
 /**
  * Plane class represents a plane defined by a point and a normal vector.
  */
-public class Plane {
+public class Plane implements IShape{
     // point on the plane.
     private Point point;
 
