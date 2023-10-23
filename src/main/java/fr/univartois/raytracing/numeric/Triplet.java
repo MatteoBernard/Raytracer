@@ -10,7 +10,7 @@ public class Triplet {
     }
 
     public double getX() {
-        return x;
+        return this.x;
     }
 
     public void setX(double x) {
@@ -18,7 +18,7 @@ public class Triplet {
     }
 
     public double getY() {
-        return y;
+        return this.y;
     }
 
     public void setY(double y) {
@@ -26,7 +26,7 @@ public class Triplet {
     }
 
     public double getZ() {
-        return z;
+        return this.z;
     }
 
     public void setZ(double z) {
