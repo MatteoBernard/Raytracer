@@ -6,9 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
-public class Parser {
+public final class Parser {
 
     private Scanner scanner;
+
+    private static Parser instance;
 
     private static HashMap<String, Integer> expectedParams;
 
@@ -28,6 +30,12 @@ public class Parser {
         expectedParams.put("directionnal", 6);
         expectedParams.put("point", 6);
         expectedParams.put("maxverts", 1);
+    }
+
+    public static Parser getInstance() {
+        if (instance == null)
+            return new Parser();
+        return instance;
     }
 
     public void openFile(String fileName) throws FileNotFoundException {
