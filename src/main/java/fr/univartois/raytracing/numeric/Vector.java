@@ -2,7 +2,7 @@ package fr.univartois.raytracing.numeric;
 
 public class Vector {
 
-    protected Triplet triplet;
+    protected final Triplet triplet;
 
     public Vector(Triplet vector) {
         this.triplet = vector;
@@ -12,28 +12,24 @@ public class Vector {
         return this.triplet;
     }
 
-    public void setTriplet(Triplet triplet) {
-        this.triplet = triplet;
+    public Point addition(Point add) {
+        return new Point(triplet.addition(add.getTriplet()));
     }
 
-    public Point addition(Triplet add) {
-        return new Point(triplet.addition(add));
+    public Vector substraction(Vector substract) {
+        return new Vector(triplet.substraction(substract.getTriplet()));
     }
 
-    public Vector substraction(Triplet substract) {
-        return new Vector(triplet.substraction(substract));
+    public Vector scalarMultiplication(double d) {
+        return new Vector(triplet.scalarMultiplication(d));
     }
 
-    public Point scalarMultiplication(double d) {
-        return new Point(triplet.scalarMultiplication(d));
+    public double scalarProduct(Vector product) {
+        return (triplet.scalarProduct(product.getTriplet()));
     }
 
-    public double scalarProduct(Triplet product) {
-        return (triplet.scalarProduct(product));
-    }
-
-    public Triplet vectorProduct(Triplet product) {
-        return (triplet.vectorProduct(product));
+    public Vector vectorProduct(Vector product) {
+        return new Vector(triplet.vectorProduct(product.getTriplet()));
     }
 
 
@@ -42,7 +38,7 @@ public class Vector {
         return triplet.length();
     }
 
-    public Triplet norm(Triplet product) {
-        return (triplet.norm(product));
+    public Vector norm() {
+        return new Vector(triplet.norm());
     }
 }
