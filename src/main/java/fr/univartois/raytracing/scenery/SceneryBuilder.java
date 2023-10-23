@@ -13,8 +13,20 @@ import java.util.List;
  * by managing the collection of shapes and lights.
  */
 public class SceneryBuilder implements Builder {
-    private List<IShape> shapes;
+    private Camera camera;
     private List<ILight> lights;
+    private List<IShape> shapes;
+    private int x;
+    private int y;
+
+    public SceneryBuilder(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
+    }
 
     /**
      * Sets list of shapes for the scenery.
