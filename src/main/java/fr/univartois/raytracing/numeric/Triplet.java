@@ -1,7 +1,7 @@
 package fr.univartois.raytracing.numeric;
 
 public class Triplet {
-    protected double x,y,z;
+    protected final double x,y,z;
 
     public Triplet(double x, double y, double z) {
         this.x = x;
@@ -13,25 +13,19 @@ public class Triplet {
         return this.x;
     }
 
-    public void setX(double x) {
-        this.x = x;
-    }
+
 
     public double getY() {
         return this.y;
     }
 
-    public void setY(double y) {
-        this.y = y;
-    }
+
 
     public double getZ() {
         return this.z;
     }
 
-    public void setZ(double z) {
-        this.z = z;
-    }
+
 
     public Triplet addition (Triplet triplet){
         return new Triplet(
@@ -65,7 +59,7 @@ public class Triplet {
     public double length (){
         return (Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z));
     }
-    public Triplet norm (Triplet product){
+    public Triplet norm (){
         return (this.scalarMultiplication(1/this.length()));
     }
 
