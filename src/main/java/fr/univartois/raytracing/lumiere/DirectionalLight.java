@@ -2,7 +2,7 @@ package fr.univartois.raytracing.lumiere;
 
 public class DirectionalLight implements ILight{
     Color color;
-    Triplet coord;
+    Point coord;
 
     public DirectionalLight(Color color, Triplet coord) {
         this.color = color;
