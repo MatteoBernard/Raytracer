@@ -3,45 +3,26 @@ package fr.univartois.raytracing.numeric;
 public class Point {
 
     protected Triplet triplet;
-    protected double x,y,z;
 
-    public Point(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.triplet = new Triplet(x,y,z);
+
+    public Point(Triplet point) {
+        this.triplet=point;
     }
 
-    public double getX() {
-        return x;
+    public Triplet getTriplet() {
+        return triplet;
     }
 
-    public void setX(double x) {
-        this.x = x;
+    public void setTriplet(Triplet triplet) {
+        this.triplet = triplet;
     }
 
-    public double getY() {
-        return y;
+    public Vector substraction(Triplet substract){
+        return new Vector(triplet.substraction(substract));
     }
 
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-    }
-
-    public Triplet substraction(){
-        return triplet.substraction(triplet);
-    }
-
-    public Triplet scalarMultiplication(double d){
-        return triplet.scalarMultiplication(d);
+    public Point scalarMultiplication(double d){
+        return new Point(triplet.scalarMultiplication(d));
     }
 }
 
