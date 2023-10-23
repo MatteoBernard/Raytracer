@@ -10,7 +10,7 @@ public class Point {
     }
 
     public Triplet getTriplet() {
-        return triplet;
+        return this.triplet;
     }
 
     public void setTriplet(Triplet triplet) {
