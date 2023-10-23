@@ -1,6 +1,7 @@
 package fr.univartois.raytracing.shape;
 
 import fr.univartois.raytracing.numeric.Point;
+import fr.univartois.raytracing.numeric.Vector;
 
 public class Tri implements IShape{
     Point pointA;
@@ -35,5 +36,10 @@ public class Tri implements IShape{
 
     public void setPointC(Point pointC) {
         this.pointC = pointC;
+    }
+
+    @Override
+    public double intersect(Point p, Vector d) {
+        return 0;
     }
 }
