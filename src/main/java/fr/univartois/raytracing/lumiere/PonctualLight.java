@@ -1,16 +1,20 @@
 package fr.univartois.raytracing.lumiere;
 
+
+import fr.univartois.raytracing.numeric.Color;
+import fr.univartois.raytracing.numeric.Point;
+
 public class PonctualLight implements ILight{
     Color color;
     Point coord;
 
-    public DirectionalLight(Color color, Triplet coord) {
+    public PonctualLight(Color color, Point coord) {
         this.color = color;
         this.coord = coord;
     }
 
     @Override
-    public Triplet getCoord() {
+    public Point getCoord() {
         return this.coord;
     }
 

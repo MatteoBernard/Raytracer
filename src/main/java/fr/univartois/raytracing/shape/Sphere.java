@@ -1,5 +1,7 @@
 package fr.univartois.raytracing.shape;
 
+import fr.univartois.raytracing.numeric.Point;
+
 public class Sphere implements IShape{
     Point point;
     double rayon;
