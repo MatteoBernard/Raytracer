@@ -12,7 +12,7 @@ public class Vector {
         return this.triplet;
     }
 
-    public Point addition(Vector add) {
+    public Point addition(Point add) {
         return new Point(triplet.addition(add.getTriplet()));
     }
 
