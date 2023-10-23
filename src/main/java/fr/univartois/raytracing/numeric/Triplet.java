@@ -1,4 +1,4 @@
-package fr.univartois.raytracing.numericTriplets;
+package fr.univartois.raytracing.numeric;
 
 public class Triplet {
     protected double x,y,z;
@@ -33,39 +33,39 @@ public class Triplet {
         this.z = z;
     }
 
-    protected Triplet addition (Triplet triplet){
+    public Triplet addition (Triplet triplet){
         return new Triplet(
                 triplet.getX()+this.x, triplet.getY()+this.y,triplet.getZ()+this.z);
 
     }
-    protected Triplet substraction (Triplet triplet){
+    public Triplet substraction (Triplet triplet){
         return new Triplet(
                 triplet.getX()-this.x, triplet.getY()-this.y,triplet.getZ()-this.z);
 
     }
-    protected Triplet scalarMultiplication (double d){
+    public Triplet scalarMultiplication (double d){
         return new Triplet(this.x*d, this.y*d,this.z*d);
 
     }
 
-    protected double scalarProduct (Triplet product){
+    public double scalarProduct (Triplet product){
         return (this.x*product.getX()+ this.y* product.getY()+this.z*product.getZ());
     }
 
-    protected Triplet vectorProduct (Triplet product){
+    public Triplet vectorProduct (Triplet product){
         return new Triplet(
                 this.y*product.getZ()-this.z*product.getY(),
                 this.z*product.getX()-this.x*product.getZ(),
                 this.x*product.getY()-this.y*product.getX());
     }
 
-    protected Triplet schurProduct (Triplet product){
+    public Triplet schurProduct (Triplet product){
         return new Triplet(this.x*product.getX(), this.y* product.getY(),this.z*product.getZ());
     }
-    protected double length (){
+    public double length (){
         return (Math.sqrt(this.x*this.x+this.y*this.y+this.z*this.z));
     }
-    protected Triplet norm (Triplet product){
+    public Triplet norm (Triplet product){
         return (this.scalarMultiplication(1/this.length()));
     }
 
