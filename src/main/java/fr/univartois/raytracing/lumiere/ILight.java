@@ -8,6 +8,7 @@ import fr.univartois.raytracing.numeric.Vector;
  * The ILight interface defines the contract for all types of light sources in a ray tracing system.
  */
 public interface ILight {
+
     /**
      * Get the direction vector of the light source.
      *
