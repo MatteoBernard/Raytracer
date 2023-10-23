@@ -2,7 +2,7 @@ package fr.univartois.raytracing.numeric;
 
 public class Point {
 
-    protected Triplet triplet;
+    protected final Triplet triplet;
 
 
     public Point(Triplet point) {
@@ -13,12 +13,8 @@ public class Point {
         return this.triplet;
     }
 
-    public void setTriplet(Triplet triplet) {
-        this.triplet = triplet;
-    }
-
-    public Vector substraction(Triplet substract){
-        return new Vector(triplet.substraction(substract));
+    public Vector substraction(Point substract){
+        return new Vector(triplet.substraction(substract.getTriplet()));
     }
 
     public Point scalarMultiplication(double d){
