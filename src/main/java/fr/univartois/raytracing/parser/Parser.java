@@ -20,7 +20,6 @@ import java.util.*;
 public final class Parser {
 
     private Scanner scanner;
-    private static Parser instance;
     private HashMap<String, Integer> expectedParams;
     private HashMap<String, Color> colors;
     private List<IShape> shapes;
@@ -60,12 +59,6 @@ public final class Parser {
         this.camera = null;
         this.nbPoints = -1;
         this.colors = new HashMap<String, Color>();
-    }
-
-    public static Parser getInstance() {
-        if (instance == null)
-            return new Parser();
-        return instance;
     }
 
     public HashMap<String, Color> getColors() {
