@@ -4,16 +4,17 @@ import fr.univartois.raytracing.lumiere.ILight;
 import fr.univartois.raytracing.shape.IShape;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Scenery {
     Camera camera;
-    ArrayList<ILight> lights;
-    ArrayList<IShape> shapes;
+    List<ILight> lights;
+    List<IShape> shapes;
 
     int x;
     int y;
 
-    public Scenery(Camera camera, ArrayList<ILight> lights, ArrayList<IShape> shapes, int x, int y) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
@@ -29,19 +30,19 @@ public class Scenery {
         this.camera = camera;
     }
 
-    public ArrayList<ILight> getLights() {
+    public List<ILight> getLights() {
         return lights;
     }
 
-    public void setLights(ArrayList<ILight> lights) {
+    public void setLights(List<ILight> lights) {
         this.lights = lights;
     }
 
-    public ArrayList<IShape> getShapes() {
+    public List<IShape> getShapes() {
         return shapes;
     }
 
-    public void setShapes(ArrayList<IShape> shapes) {
+    public void setShapes(List<IShape> shapes) {
         this.shapes = shapes;
     }
 
