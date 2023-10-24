@@ -36,7 +36,7 @@ public final class Parser {
         put("diffuse", 3);
         put("specular", 3);
         put("shininess", 1);
-        put("directionnal", 6);
+        put("directional", 6);
         put("point", 6);
         put("maxverts", 1);
     }};
