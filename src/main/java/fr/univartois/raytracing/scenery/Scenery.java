@@ -2,6 +2,7 @@ package fr.univartois.raytracing.scenery;
 
 import fr.univartois.raytracing.lumiere.ILight;
 import fr.univartois.raytracing.numeric.Color;
+import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.shape.IShape;
 
 import java.util.HashMap;
@@ -28,11 +29,10 @@ public class Scenery {
      * @param x      horizontal rendering dimension.
      * @param y      vertical rendering dimension.
      */
-    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, HashMap<String,Color> colors,int x, int y) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
-        this.colors = colors;
         this.x = x;
         this.y = y;
     }
@@ -125,13 +125,5 @@ public class Scenery {
      */
     public void setY(int y) {
         this.y = y;
-    }
-
-    public HashMap<String, Color> getColors() {
-        return colors;
-    }
-
-    public void setColors(HashMap<String, Color> colors) {
-        this.colors = colors;
     }
 }
