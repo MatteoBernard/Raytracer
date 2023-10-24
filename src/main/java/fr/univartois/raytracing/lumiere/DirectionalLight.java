@@ -53,4 +53,5 @@ public class DirectionalLight implements ILight {
     public Color getColor() {
         return this.color;
     }
+
 }
