@@ -6,21 +6,16 @@ import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.parser.Parser;
-import fr.univartois.raytracing.scenery.Camera;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.scenery.SceneryBuilder;
 import fr.univartois.raytracing.shape.IShape;
-import fr.univartois.raytracing.shape.Sphere;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class SphereRayTracing {
+public class RayTracing {
 
     public void launch (Scenery scene,String output) {
         BufferedImage image = new BufferedImage(scene.getX(),scene.getY(),BufferedImage.TYPE_INT_RGB);
@@ -45,24 +40,22 @@ public class SphereRayTracing {
         for (int i=0; i < scene.getX(); i++) {
             for (int j=0; j < scene.getY(); j++) {
                 for (IShape shape : scene.getShapes()) {
-                    if (shape instanceof Sphere) {
 
-                        fovr = (scene.getCamera().getFov()*Math.PI)/180;
-                        pixelHeight = Math.tan(fovr/2);
-                        pixelWidth = pixelHeight * ((double) scene.getX() /scene.getY());
+                    fovr = (scene.getCamera().getFov()*Math.PI)/180;
+                    pixelHeight = Math.tan(fovr/2);
+                    pixelWidth = pixelHeight * ((double) scene.getX() /scene.getY());
 
-                        a = -((double) scene.getX() /2)+(j+0.5)*pixelWidth;
-                        b = ((double) scene.getY() /2)-(i+0.5)*pixelHeight;
-
-
-                        d = ((u.scalarMultiplication(a)).addition(v.scalarMultiplication(b))).substraction(w);
-                        d = d.norm();
+                    a = -((double) scene.getX() /2)+(j+0.5)*pixelWidth;
+                    b = ((double) scene.getY() /2)-(i+0.5)*pixelHeight;
 
 
-                        t = shape.intersect(lookFrom,d);
-                        if (t < min && t != -1) {
-                            min = t;
-                        }
+                    d = ((u.scalarMultiplication(a)).addition(v.scalarMultiplication(b))).substraction(w);
+                    d = d.norm();
+
+
+                    t = shape.intersect(lookFrom,d);
+                    if (t < min && t != -1) {
+                        min = t;
                     }
                 }
 
@@ -110,7 +103,7 @@ public class SphereRayTracing {
             System.out.println(shape);
         }
 
-        SphereRayTracing rt = new SphereRayTracing();
+        RayTracing rt = new RayTracing();
         rt.launch(scene,p.getOutput());
     }
 }
