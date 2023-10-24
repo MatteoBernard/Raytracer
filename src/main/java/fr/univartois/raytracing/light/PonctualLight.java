@@ -10,13 +10,12 @@ import fr.univartois.raytracing.numeric.Vector;
  * of a specific color and is defined by a direction vector.
  */
 public class PonctualLight implements ILight{
-
     Color color; // color of the light
-    Point coord; // coordonate of the light
+    Point coord; // the coordonate of the light
 
 
     /**
-     * Constructs a new PonctualLight object with the specified color and direction vector.
+     * Constructs a new DirectionalLight object with the specified color and direction vector.
      *
      * @param color  color of the directional light.
      * @param coord  coord of the light.

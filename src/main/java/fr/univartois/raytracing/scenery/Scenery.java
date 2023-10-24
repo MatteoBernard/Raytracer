@@ -1,8 +1,10 @@
 package fr.univartois.raytracing.scenery;
 
+import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.shape.IShape;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -13,6 +15,7 @@ public class Scenery {
     private Camera camera;
     private List<ILight> lights;
     private List<IShape> shapes;
+    private HashMap<String,Color> colors;
     private int x;
     private int y;
 
@@ -22,10 +25,11 @@ public class Scenery {
      * @param camera camera used to capture the scene.
      * @param lights list of light sources in the scene.
      * @param shapes list of geometric shapes in the scene.
+     * @param colors
      * @param x      horizontal rendering dimension.
      * @param y      vertical rendering dimension.
      */
-    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, HashMap<String, Color> colors, int x, int y) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
@@ -121,5 +125,9 @@ public class Scenery {
      */
     public void setY(int y) {
         this.y = y;
+    }
+
+    public HashMap<String, Color> getColors() {
+        return  this.colors;
     }
 }
