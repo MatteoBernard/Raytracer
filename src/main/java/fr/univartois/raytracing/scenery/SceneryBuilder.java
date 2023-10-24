@@ -1,11 +1,13 @@
 package fr.univartois.raytracing.scenery;
 
 import fr.univartois.raytracing.lumiere.ILight;
+import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.shape.IShape;
 import fr.univartois.raytracing.shape.Sphere;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,6 +18,7 @@ public class SceneryBuilder implements Builder {
     private Camera camera;
     private List<ILight> lights;
     private List<IShape> shapes;
+    private HashMap<String,Color> colors;
     private int x;
     private int y;
 
@@ -85,4 +88,26 @@ public class SceneryBuilder implements Builder {
     public List<ILight> getLights() {
         return lights;
     }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public HashMap<String, Color> getColors() {
+        return colors;
+    }
+
+    public void setColors(HashMap<String, Color> colors) {
+        this.colors = colors;
+    }
+
+    public void addColors(String key, Color val) {colors.put(key,val);}
 }
