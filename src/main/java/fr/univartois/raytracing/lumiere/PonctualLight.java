@@ -10,19 +10,20 @@ import fr.univartois.raytracing.numeric.Vector;
  * of a specific color and is defined by a direction vector.
  */
 public class PonctualLight implements ILight{
+
     Color color; // color of the light
     Point coord; // the coordonate of the light
 
 
     /**
-     * Constructs a new DirectionalLight object with the specified color and direction vector.
+     * Constructs a new PonctualLight object with the specified color and direction vector.
      *
      * @param color  color of the directional light.
      * @param coord  coord of the light.
      */
     public PonctualLight(Color color, Point coord) {
         this.color = color;
-        this.coord = coord;
+        this.vector = vector;
     }
 
     /**
@@ -31,8 +32,8 @@ public class PonctualLight implements ILight{
      * @return position of the light (null for directional lights).
      */
     @Override
-    public Point getCoord() {
-        return this.coord;
+    public Vector getVector() {
+        return this.vector;
     }
 
     /**
