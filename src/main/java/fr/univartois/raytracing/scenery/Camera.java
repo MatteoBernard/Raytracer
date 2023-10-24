@@ -1,6 +1,7 @@
 package fr.univartois.raytracing.scenery;
 
 import fr.univartois.raytracing.numeric.Point;
+import fr.univartois.raytracing.numeric.Vector;
 
 /**
  * The Camera class represents a camera in a ray tracing system. It defines the camera's position (lookFrom),
@@ -9,7 +10,7 @@ import fr.univartois.raytracing.numeric.Point;
 public class Camera {
     private Point lookFrom;
     private Point lookAt;
-    private Point up;
+    private Vector up;
     private Integer fov;
 
     /**
@@ -20,7 +21,7 @@ public class Camera {
      * @param up       "up" direction of the camera.
      * @param fov      field of view of the camera.
      */
-    public Camera(Point lookFrom, Point lookAt, Point up, Integer fov) {
+    public Camera(Point lookFrom, Point lookAt, Vector up, Integer fov) {
         this.lookFrom = lookFrom;
         this.lookAt = lookAt;
         this.up = up;
@@ -68,7 +69,7 @@ public class Camera {
      *
      * @return "up" direction of the camera.
      */
-    public Point getUp() {
+    public Vector getUp() {
         return up;
     }
 
@@ -77,7 +78,7 @@ public class Camera {
      *
      * @param up new "up" direction for the camera.
      */
-    public void setUp(Point up) {
+    public void setUp(Vector up) {
         this.up = up;
     }
 

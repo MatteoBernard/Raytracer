@@ -59,5 +59,10 @@ public class Plane implements IShape{
     public void setNormal(Vector normal) {
         this.normal = normal;
     }
+
+    @Override
+    public double intersect(Point p, Vector d) {
+        return 0;
+    }
 }
 

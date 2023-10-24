@@ -1,6 +1,11 @@
 package fr.univartois.raytracing.shape;
 
 import fr.univartois.raytracing.numeric.Point;
+import fr.univartois.raytracing.numeric.Triplet;
+import fr.univartois.raytracing.numeric.Vector;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.sqrt;
 
 /**
  * The Sphere class represents a sphere defined by a center point and a radius.
@@ -57,5 +62,31 @@ public class Sphere implements IShape {
      */
     public void setRadius(double radius) {
         this.radius = radius;
+    }
+
+    public double intersect (Point o, Vector d) {
+
+        double a = 1;
+        double b = ((o.substraction(point).scalarMultiplication(2)).scalarProduct(d));
+        double c = ((o.substraction(point)).scalarProduct(o.substraction(point)))-(radius*radius);
+
+        double delta = (b*b)-(4*a*c);
+        double t;
+        if (delta == 0) {
+            t = ((b*-1)/(2*a));
+
+            return t;
+        }
+        else {
+            t = (-b + sqrt(delta))/(2*a);
+            if (t>=0) {
+                return t;
+            }
+            else {
+                t = (-b - sqrt(delta)) / (2 * a);
+                if (t >= 0) return t;
+            }
+        }
+        return -1;
     }
 }

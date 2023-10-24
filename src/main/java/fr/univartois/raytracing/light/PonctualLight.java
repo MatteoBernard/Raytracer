@@ -31,6 +31,10 @@ public class PonctualLight implements ILight{
      * @return position of the light (null for directional lights).
      */
     @Override
+    public Vector getVector() {
+        return null;
+    }
+
     public Point getCoord() {
         return this.coord;
     }
@@ -40,10 +44,6 @@ public class PonctualLight implements ILight{
      *
      * @return direction vector of the light source.
      */
-    @Override
-    public Vector getVector() {
-        return null;
-    }
 
     /**
      * Get the color of the light.

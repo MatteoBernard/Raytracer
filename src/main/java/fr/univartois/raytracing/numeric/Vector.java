@@ -16,6 +16,10 @@ public class Vector {
         return new Point(triplet.addition(add.getTriplet()));
     }
 
+    public Vector addition(Vector add){
+        return new Vector(triplet.addition(add.getTriplet()));
+    }
+
     public Vector substraction(Vector substract) {
         return new Vector(triplet.substraction(substract.getTriplet()));
     }
