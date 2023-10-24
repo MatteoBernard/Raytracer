@@ -60,6 +60,16 @@ public class Plane implements IShape{
         this.normal = normal;
     }
 
+    /**
+     * Calculates the intersection point of a ray represented by a point and a direction vector
+     * with a plane defined by a point and a normal vector in 3D space.
+     *
+     * @param p The starting point of the ray.
+     * @param d The direction vector of the ray.
+     * @return The intersection point as a parameterized distance along the ray.
+     * @throws UnsupportedOperationException if the direction vector is parallel to the plane's normal,
+     *                                      causing division by zero.
+     */
     @Override
     public double intersect(Point p, Vector d) {
         Vector test = this.point.substraction(p);

@@ -80,6 +80,17 @@ public class Tri implements IShape {
         this.pointC = pointC;
     }
 
+    /**
+     * Calculates the intersection of a ray represented by a point and a direction vector
+     * with a triangle defined by three points in 3D space.
+     *
+     * @param p The starting point of the ray.
+     * @param d The direction vector of the ray.
+     * @return The intersection point as a parameterized distance along the ray.
+     * @throws UnsupportedOperationException if the intersection point does not satisfy the
+     *                                      conditions for being within the triangle.
+     */
+
     @Override
     public double intersect(Point p, Vector d) {
         Vector n = (this.pointB.substraction(this.pointA)).vectorProduct(this.pointC.substraction(this.pointA));
