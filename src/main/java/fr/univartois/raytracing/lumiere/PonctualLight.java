@@ -23,7 +23,7 @@ public class PonctualLight implements ILight{
      */
     public PonctualLight(Color color, Point coord) {
         this.color = color;
-        this.vector = vector;
+        this.coord = coord;
     }
 
     /**
@@ -33,7 +33,7 @@ public class PonctualLight implements ILight{
      */
     @Override
     public Vector getVector() {
-        return this.vector;
+        return null;
     }
 
     /**
@@ -41,10 +41,6 @@ public class PonctualLight implements ILight{
      *
      * @return direction vector of the light source.
      */
-    @Override
-    public Vector getVector() {
-        return null;
-    }
 
     /**
      * Get the color of the light.
@@ -54,5 +50,10 @@ public class PonctualLight implements ILight{
     @Override
     public Color getColor() {
         return this.color;
+    }
+
+    @Override
+    public Point getCoord() {
+        return this.coord;
     }
 }

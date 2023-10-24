@@ -66,7 +66,7 @@ public class Sphere implements IShape {
     public double intersect (Point o, Vector d) {
         double a = 1;
         double b = ((o.substraction(point)).scalarMultiplication(2)).scalarProduct(d);
-        double c = (o.substraction(point)).scalarProduct(o.substraction(point))-(rayon*rayon);
+        double c = (o.substraction(point)).scalarProduct(o.substraction(point))-(radius*radius);
 
         double delta = (b*b)-(4*a*c);
         if (delta < 0) return -1;
