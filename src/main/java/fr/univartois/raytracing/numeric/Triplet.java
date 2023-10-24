@@ -41,7 +41,6 @@ public class Triplet {
     public Triplet scalarMultiplication (double d){
         //following maths formulas, the scalar multiplication returns a new triplet as (d × (x,y,z))
         return new Triplet(this.x*d, this.y*d,this.z*d);
-
     }
 
     public double scalarProduct (Triplet product){

@@ -1,6 +1,7 @@
 package fr.univartois.raytracing.shape;
 
 import fr.univartois.raytracing.numeric.Point;
+import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 
 import static java.lang.Math.cos;
@@ -64,17 +65,28 @@ public class Sphere implements IShape {
     }
 
     public double intersect (Point o, Vector d) {
+
         double a = 1;
-        double b = ((o.substraction(point)).scalarMultiplication(2)).scalarProduct(d);
-        double c = (o.substraction(point)).scalarProduct(o.substraction(point))-(radius*radius);
+        double b = ((o.substraction(point).scalarMultiplication(2)).scalarProduct(d));
+        double c = ((o.substraction(point)).scalarProduct(o.substraction(point)))-(radius*radius);
 
         double delta = (b*b)-(4*a*c);
-        if (delta < 0) return -1;
-        else if (delta == 0) return ((b*-1)/(2*a));
-        else {
-            double t = (-b + sqrt(delta))/(2*a);
-            if (t>=0) return t;
-            else return (-b - sqrt(delta))/(2*a);
+        double t;
+        if (delta == 0) {
+            t = ((b*-1)/(2*a));
+
+            return t;
         }
+        else {
+            t = (-b + sqrt(delta))/(2*a);
+            if (t>=0) {
+                return t;
+            }
+            else {
+                t = (-b - sqrt(delta)) / (2 * a);
+                if (t >= 0) return t;
+            }
+        }
+        return -1;
     }
 }

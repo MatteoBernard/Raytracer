@@ -1,6 +1,5 @@
 package fr.univartois.raytracing.scenery;
 
-import fr.univartois.raytracing.lumiere.ILight;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Triplet;
@@ -87,5 +86,38 @@ public class SceneryBuilder implements Builder {
      */
     public List<ILight> getLights() {
         return lights;
+    }
+
+    public Camera getCamera() {
+        return this.camera;
+
+    }
+
+    public void setLights(List<ILight> lights) {
+        this.lights = lights;
+    }
+
+    public HashMap<String, Color> getColors() {
+        return this.colors;
+    }
+
+    public void setColors(HashMap<String, Color> colors) {
+        this.colors = colors;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 }

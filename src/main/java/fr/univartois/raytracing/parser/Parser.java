@@ -196,7 +196,7 @@ public final class Parser {
     private final void addCamera(String[] parts) {
         Point lookFrom = new Point(new Triplet(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
         Point lookAt = new Point(new Triplet(Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6])));
-        Point up = new Point(new Triplet(Integer.parseInt(parts[7]), Integer.parseInt(parts[8]), Integer.parseInt(parts[9])));
+        Vector up = new Vector(new Triplet(Integer.parseInt(parts[7]), Integer.parseInt(parts[8]), Integer.parseInt(parts[9])));
         this.camera = new Camera(lookFrom, lookAt, up, Integer.valueOf(parts[10]));
     }
 
