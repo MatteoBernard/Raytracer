@@ -54,6 +54,7 @@ public final class Parser {
     private int shininess;
     private int maxverts;
     private String output;
+    private boolean activeShadow;
 
     // Constructor
 
@@ -79,6 +80,7 @@ public final class Parser {
         this.camera = null;
         this.nbPoints = -1;
         this.colors = new HashMap<String, Color>();
+        this.activeShadow = false;
     }
 
     // Getters
@@ -153,6 +155,14 @@ public final class Parser {
      */
     public String getOutput() {
         return output;
+    }
+
+    /**
+     * Get the value of the activeShadow boolean.
+     * @return A boolean representing if shadows have to be enabled.
+     */
+    public boolean getActiveShadow() {
+        return activeShadow;
     }
 
     /**
@@ -272,6 +282,11 @@ public final class Parser {
      */
     private final void addSphere(String[] parts) {
         this.shapes.add(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4])));
+        System.out.println(parts[1]);
+        System.out.println(parts[2]);
+        System.out.println(parts[3]);
+        System.out.println(parts[4]);
+
     }
 
     /**
@@ -294,6 +309,22 @@ public final class Parser {
     private final void addPlane(String[] parts) {
         this.shapes.add(new Plane(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))),
                 new Vector(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])))));
+    }
+
+    /**
+     * Sets the value of the activeShadow attribute based on the input 'parts' array.
+     *
+     * @param parts An array of string parts containing shadow property.
+     *
+     * @throws Exception If the entry is incorrect (others values than true or false).
+     */
+    private final void setActiveShadow(String[] parts) throws Exception {
+        if (parts[1].equals("true"))
+            this.activeShadow = true;
+        else if (parts[1].equals("false"))
+            this.activeShadow = false;
+        else
+            throw new Exception("Incorrect entry (shadow)");
     }
 
     /**
@@ -381,6 +412,10 @@ public final class Parser {
                                     this.addPlane(parts);
                                     break;
                                 }
+                                case "shadow" : {
+                                    this.setActiveShadow(parts);
+                                    break;
+                                }
                                 default : {
                                     throw new Exception("Incorrect entry");
                                 }
@@ -407,5 +442,10 @@ public final class Parser {
         this.openFile(fileName);
         this.processFile();
         this.closeFile();
+    }
+
+    public static void main(String[] args) throws Exception {
+        Parser p = new Parser();
+        p.useParser("/home/matteobernard/BUT2/SAE_S3/raytracing-groupe10/src/main/java/fr/univartois/raytracing/parser/test.txt");
     }
 }

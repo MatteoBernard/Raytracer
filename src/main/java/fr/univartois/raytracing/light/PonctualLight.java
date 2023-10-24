@@ -35,15 +35,15 @@ public class PonctualLight implements ILight{
         return null;
     }
 
-    public Point getCoord() {
-        return this.coord;
-    }
-
     /**
      * Get the direction vector of the light.
      *
      * @return direction vector of the light source.
      */
+    @Override
+    public Point getCoord() {
+        return this.coord;
+    }
 
     /**
      * Get the color of the light.
