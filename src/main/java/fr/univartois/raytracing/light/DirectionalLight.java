@@ -1,38 +1,36 @@
-package fr.univartois.raytracing.lumiere;
-
+package fr.univartois.raytracing.light;
 
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Vector;
 
 /**
- * The PonctualLight class represents a ponctual light source in a ray tracing system. It emits light
+ * The DirectionalLight class represents a directional light source in a ray tracing system. It emits light
  * of a specific color and is defined by a direction vector.
  */
-public class PonctualLight implements ILight{
-    Color color; // color of the light
-    Point coord; // the coordonate of the light
-
+public class DirectionalLight implements ILight {
+    private Color color;
+    private Vector vector;
 
     /**
      * Constructs a new DirectionalLight object with the specified color and direction vector.
      *
      * @param color  color of the directional light.
-     * @param coord  coord of the light.
+     * @param vector direction vector of the light.
      */
-    public PonctualLight(Color color, Point coord) {
+    public DirectionalLight(Color color, Vector vector) {
         this.color = color;
-        this.coord = coord;
+        this.vector = vector;
     }
 
     /**
-     * Get the position of the light (null for directional lights).
+     * Get the position of the directional light (null for directional lights).
      *
      * @return position of the light (null for directional lights).
      */
     @Override
     public Point getCoord() {
-        return this.coord;
+        return null;
     }
 
     /**
@@ -42,7 +40,7 @@ public class PonctualLight implements ILight{
      */
     @Override
     public Vector getVector() {
-        return null;
+        return this.vector;
     }
 
     /**
