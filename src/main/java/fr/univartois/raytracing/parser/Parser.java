@@ -112,6 +112,75 @@ public final class Parser {
         return line.charAt(0) != '#';
     }
 
+    public void addCamera(String[] parts) {
+        Point lookFrom = new Point(new Triplet(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
+        Point lookAt = new Point(new Triplet(Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6])));
+        Point up = new Point(new Triplet(Integer.parseInt(parts[7]), Integer.parseInt(parts[8]), Integer.parseInt(parts[9])));
+        this.camera = new Camera(lookFrom, lookAt, up, Integer.valueOf(parts[10]));
+    }
+
+    public void addAmbient(String[] parts) throws Exception {
+        boolean good = true;
+        Color c = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+        if (colors.containsKey("diffuse")) {
+            if (colors.get("diffuse").getTriplet().getX() + Double.parseDouble(parts[1]) >1 ||
+                    colors.get("diffuse").getTriplet().getY() + Double.parseDouble(parts[2]) >1 ||
+                    colors.get("diffuse").getTriplet().getZ() + Double.parseDouble(parts[3]) >1)
+                good = false;
+            if (good) {
+                colors.put("ambient", c);
+            }
+            else
+                throw new Exception("Incorrect entry (ambient)");
+        }
+        else {
+            colors.put("ambient", c);
+        }
+    }
+
+    public void addDiffuse(String[] parts) throws Exception {
+        boolean good = true;
+        Color c = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+        if (colors.containsKey("ambient")) {
+            if (colors.get("ambiant").getTriplet().getX() + Double.parseDouble(parts[1]) >1 ||
+                    colors.get("ambiant").getTriplet().getY() + Double.parseDouble(parts[2]) >1 ||
+                    colors.get("ambiant").getTriplet().getZ() + Double.parseDouble(parts[3]) >1)
+                good = false;
+            if (good) {
+                colors.put("diffuse", c);
+            }
+            else
+                throw new Exception("Incorrect entry (diffuse)");
+        }
+        else {
+            colors.put("diffuse", c);
+        }
+    }
+
+    public void addShininess(String[] parts) throws Exception {
+        int i = Integer.parseInt(parts[1]);
+        if (i >= 0)
+            this.shininess = i;
+        else
+            throw new Exception("Incorrect entry (shininess)");
+    }
+
+    public void addSphere(String[] parts) {
+        this.shapes.add(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4])));
+    }
+
+    public void addTri(String[] parts) {
+        Point p1 = this.points[(Integer.parseInt(parts[1]))];
+        Point p2 = this.points[(Integer.parseInt(parts[2]))];
+        Point p3 = this.points[(Integer.parseInt(parts[3]))];
+        this.shapes.add(new Tri(p1, p2, p3));
+    }
+
+    public void addPlane(String[] parts) {
+        this.shapes.add(new Plane(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))),
+                new Vector(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])))));
+    }
+
     public void processFile() throws Exception {
         String line = null;
 
@@ -139,48 +208,15 @@ public final class Parser {
                                     break;
                                 }
                                 case "camera" : {
-                                    Point lookFrom = new Point(new Triplet(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
-                                    Point lookAt = new Point(new Triplet(Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6])));
-                                    Point up = new Point(new Triplet(Integer.parseInt(parts[7]), Integer.parseInt(parts[8]), Integer.parseInt(parts[9])));
-                                    this.camera = new Camera(lookFrom, lookAt, up, Integer.valueOf(parts[10]));
+                                    addCamera(parts);
                                     break;
                                 }
                                 case "ambient" : {
-                                    boolean good = true;
-                                    Color c = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
-                                    if (colors.containsKey("diffuse")) {
-                                        if (colors.get("diffuse").getTriplet().getX() + Double.parseDouble(parts[1]) >1 ||
-                                                colors.get("diffuse").getTriplet().getY() + Double.parseDouble(parts[2]) >1 ||
-                                                colors.get("diffuse").getTriplet().getZ() + Double.parseDouble(parts[3]) >1)
-                                            good = false;
-                                        if (good) {
-                                            colors.put("ambient", c);
-                                        }
-                                        else
-                                            throw new Exception("Incorrect entry (ambient)");
-                                    }
-                                    else {
-                                        colors.put("ambient", c);
-                                    }
+                                    addAmbient(parts);
                                     break;
                                 }
                                 case "diffuse" : {
-                                    boolean good = true;
-                                    Color c = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
-                                    if (colors.containsKey("ambient")) {
-                                        if (colors.get("ambiant").getTriplet().getX() + Double.parseDouble(parts[1]) >1 ||
-                                                colors.get("ambiant").getTriplet().getY() + Double.parseDouble(parts[2]) >1 ||
-                                                colors.get("ambiant").getTriplet().getZ() + Double.parseDouble(parts[3]) >1)
-                                            good = false;
-                                        if (good) {
-                                            colors.put("diffuse", c);
-                                        }
-                                        else
-                                            throw new Exception("Incorrect entry (diffuse)");
-                                    }
-                                    else {
-                                        colors.put("diffuse", c);
-                                    }
+                                    addDiffuse(parts);
                                     break;
                                 }
                                 case "specular" : {
@@ -188,16 +224,12 @@ public final class Parser {
                                     break;
                                 }
                                 case "shininess" : {
-                                    int i = Integer.parseInt(parts[1]);
-                                    if (i >= 0)
-                                        this.shininess = i;
-                                    else
-                                        throw new Exception("Incorrect entry (shininess)");
+                                    addShininess(parts);
                                     break;
                                 }
                                 case "directional" : {
-                                    lights.add(new DirectionalLight(new Vector(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))),
-                                            new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])))));
+                                    lights.add(new DirectionalLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
+                                        new Vector(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
                                     break;
                                 }
                                 case "point" : {
@@ -217,19 +249,15 @@ public final class Parser {
                                     break;
                                 }
                                 case "sphere" : {
-                                    this.shapes.add(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4])));
+                                    this.addSphere(parts);
                                     break;
                                 }
                                 case "tri" : {
-                                    Point p1 = this.points[(Integer.parseInt(parts[1]))];
-                                    Point p2 = this.points[(Integer.parseInt(parts[2]))];
-                                    Point p3 = this.points[(Integer.parseInt(parts[3]))];
-                                    this.shapes.add(new Tri(p1, p2, p3));
+                                    this.addTri(parts);
                                     break;
                                 }
                                 case "plane" : {
-                                    this.shapes.add(new Plane(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))),
-                                            new Vector(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])))));
+                                    addPlane(parts);
                                     break;
                                 }
                                 default : {
@@ -237,10 +265,10 @@ public final class Parser {
                                 }
                             }
                         } else {
-                            System.out.println("Incorrect number of arguments for attribute " + attribute + "'.");
+                            throw new Exception("Incorrect number of arguments for attribute " + attribute + "'.");
                         }
                     } else {
-                        System.out.println("Unrecognized attribut : " + attribute);
+                        throw new Exception("Unrecognized attribut : " + attribute);
                     }
                 }
             }
