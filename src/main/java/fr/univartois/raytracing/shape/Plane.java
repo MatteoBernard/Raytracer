@@ -62,7 +62,12 @@ public class Plane implements IShape{
 
     @Override
     public double intersect(Point p, Vector d) {
-        return 0;
+        Vector test = this.point.substraction(p);
+        double t = test.scalarProduct(this.normal);
+        if (d.scalarProduct(this.normal)==0){
+            throw new UnsupportedOperationException("Dividing by zero isn't possible");
+        }
+        return t/d.scalarProduct(this.normal);
     }
 }
 

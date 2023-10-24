@@ -82,7 +82,19 @@ public class Tri implements IShape {
 
     @Override
     public double intersect(Point p, Vector d) {
-        return 0;
+        Vector n = (this.pointB.substraction(this.pointA)).vectorProduct(this.pointC.substraction(this.pointA));
+        n = n.norm();
+        Plane plane = new Plane(pointA,n);
+        double t = plane.intersect(p,d);
+        Point P = d.addition(p).scalarMultiplication(t);
+        double condA= (this.pointB.substraction(this.pointA)).vectorProduct(P.substraction(this.pointA)).scalarProduct(n);
+        double condB = (this.pointC.substraction(this.pointB)).vectorProduct(P.substraction(this.pointB)).scalarProduct(n);
+        double condC = (this.pointA.substraction(this.pointC)).vectorProduct(P.substraction(this.pointC)).scalarProduct(n);
+        if (condA<0 || condB<0 || condC<0){
+            throw new UnsupportedOperationException("Condition < 0");
+        }
+        Plane plane2 = new Plane(P,n);
+        return plane2.intersect(p,d);
     }
 }
 
