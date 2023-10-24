@@ -1,6 +1,6 @@
 package fr.univartois.raytracing.scenery;
 
-import fr.univartois.raytracing.lumiere.ILight;
+import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.shape.IShape;
 
 import java.util.List;

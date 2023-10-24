@@ -1,4 +1,4 @@
-package fr.univartois.raytracing.lumiere;
+package fr.univartois.raytracing.light;
 
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;

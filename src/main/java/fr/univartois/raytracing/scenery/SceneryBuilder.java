@@ -1,10 +1,7 @@
 package fr.univartois.raytracing.scenery;
 
-import fr.univartois.raytracing.lumiere.ILight;
-import fr.univartois.raytracing.numeric.Point;
-import fr.univartois.raytracing.numeric.Triplet;
+import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.shape.IShape;
-import fr.univartois.raytracing.shape.Sphere;
 
 import java.util.List;
 
