@@ -12,7 +12,7 @@ import fr.univartois.raytracing.numeric.Vector;
 public class PonctualLight implements ILight{
 
     Color color; // color of the light
-    Point coord; // coordonate of the light
+    Point coord; // the coordonate of the light
 
 
     /**
