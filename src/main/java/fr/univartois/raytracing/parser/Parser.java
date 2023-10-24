@@ -1,8 +1,8 @@
 package fr.univartois.raytracing.parser;
 
-import fr.univartois.raytracing.lumiere.DirectionalLight;
-import fr.univartois.raytracing.lumiere.ILight;
-import fr.univartois.raytracing.lumiere.PonctualLight;
+import fr.univartois.raytracing.light.DirectionalLight;
+import fr.univartois.raytracing.light.ILight;
+import fr.univartois.raytracing.light.PonctualLight;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Triplet;
