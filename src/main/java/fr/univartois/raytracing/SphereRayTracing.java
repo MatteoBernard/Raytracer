@@ -35,8 +35,8 @@ public class SphereRayTracing {
         double min = scene.getX()*scene.getY();
         double t;
 
-        for (int i=0; i <= scene.getX(); i++) {
-            for (int j=0; j <= scene.getY(); j++) {
+        for (int i=0; i < scene.getX(); i++) {
+            for (int j=0; j < scene.getY(); j++) {
                 for (IShape shape : scene.getShapes()) {
                     if (shape instanceof Sphere) {
                         t = shape.intersect(lookFrom,d);
@@ -56,9 +56,10 @@ public class SphereRayTracing {
                             (int)col.getTriplet().getZ()
                     );
                 }
-                else
-                    col = new Color(new Triplet(0,0,0));
-                    image.setRGB(i,j,0);
+                else {
+                    col = new Color(new Triplet(0, 0, 0));
+                    image.setRGB(i, j, 0);
+                }
             }
         }
         try {
