@@ -6,6 +6,7 @@ import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.shape.IShape;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class SceneryBuilder implements Builder {
     public SceneryBuilder(int x, int y) {
         this.x = x;
         this.y = y;
+        this.shapes = new ArrayList<>();
+        this.lights = new ArrayList<>();
     }
 
     public void setCamera(Camera camera) {
