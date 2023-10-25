@@ -34,6 +34,7 @@ public class RayTracing {
         v = w.vectorProduct(u);
         v = v.norm();
 
+
         fovr = (scene.getCamera().getFov()*Math.PI)/180;
         realHeight = 2* Math.tan(fovr/2);
 
@@ -50,7 +51,9 @@ public class RayTracing {
                     b = (realHeight/2)-(j+0.5)*pixelHeight;
 
 
-                    d = ((u.scalarMultiplication(a)).addition(v.scalarMultiplication(b))).substraction(w);
+                    d = ((u.scalarMultiplication(a))
+                            .addition(v.scalarMultiplication(b)))
+                            .substraction(w);
                     d = d.norm();
 
 
@@ -86,7 +89,7 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/mickey.txt");
+        p.useParser("src/main/resources/generators/carre.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
         Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY());

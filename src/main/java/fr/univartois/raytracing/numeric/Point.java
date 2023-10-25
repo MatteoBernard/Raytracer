@@ -20,5 +20,10 @@ public class Point {
     public Point scalarMultiplication(double d){
         return new Point(triplet.scalarMultiplication(d));
     }
+
+    @Override
+    public String toString() {
+        return this.triplet.toString();
+    }
 }
 
