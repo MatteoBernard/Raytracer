@@ -8,6 +8,8 @@ import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.scenery.Camera;
 import fr.univartois.raytracing.scenery.SceneryBuilder;
+import fr.univartois.raytracing.shadow.ShadowOFF;
+import fr.univartois.raytracing.shadow.ShadowON;
 import fr.univartois.raytracing.shape.Plane;
 import fr.univartois.raytracing.shape.Sphere;
 import fr.univartois.raytracing.shape.Tri;
@@ -47,7 +49,6 @@ public final class Parser {
     private int shininess;
     private int maxverts;
     private String output;
-    private boolean activeShadow;
     private SceneryBuilder sceneryBuilder;
 
     // Constructor
@@ -64,7 +65,6 @@ public final class Parser {
         this.shininess = -1;
         this.output = "output.png";
         this.colors = new HashMap<String, Color>();
-        this.activeShadow = false;
     }
 
     // Getters
@@ -83,14 +83,6 @@ public final class Parser {
      */
     public String getOutput() {
         return output;
-    }
-
-    /**
-     * Get the value of the activeShadow boolean.
-     * @return A boolean representing if shadows have to be enabled.
-     */
-    public boolean getActiveShadow() {
-        return activeShadow;
     }
 
     /**
@@ -289,9 +281,9 @@ public final class Parser {
      */
     private final void setActiveShadow(String[] parts) throws Exception {
         if (parts[1].equals("true"))
-            this.activeShadow = true;
+            this.sceneryBuilder.setShadowState(ShadowON.getInstance());
         else if (parts[1].equals("false"))
-            this.activeShadow = false;
+            this.sceneryBuilder.setShadowState(ShadowOFF.getInstance());
         else
             throw new Exception("Incorrect entry (shadow)");
     }
