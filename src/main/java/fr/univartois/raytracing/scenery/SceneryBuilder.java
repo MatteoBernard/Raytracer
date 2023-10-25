@@ -4,6 +4,8 @@ import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.light.ILight;
+import fr.univartois.raytracing.shadow.ShadowOFF;
+import fr.univartois.raytracing.shadow.ShadowState;
 import fr.univartois.raytracing.shape.IShape;
 
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class SceneryBuilder implements Builder {
     private List<ILight> lights;
     private List<IShape> shapes;
     private HashMap<String,Color> colors;
+    private ShadowState shadowState;
     private int x;
     private int y;
 
@@ -27,6 +30,7 @@ public class SceneryBuilder implements Builder {
         this.y = y;
         this.shapes = new ArrayList<>();
         this.lights = new ArrayList<>();
+        this.shadowState = ShadowOFF.getInstance();
     }
 
     public void setCamera(Camera camera) {
@@ -122,5 +126,9 @@ public class SceneryBuilder implements Builder {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public void setShadowState(ShadowState shadowState) {
+        this.shadowState = shadowState;
     }
 }

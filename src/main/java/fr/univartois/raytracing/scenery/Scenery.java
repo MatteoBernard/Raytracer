@@ -2,6 +2,8 @@ package fr.univartois.raytracing.scenery;
 
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
+import fr.univartois.raytracing.shadow.ShadowOFF;
+import fr.univartois.raytracing.shadow.ShadowState;
 import fr.univartois.raytracing.shape.IShape;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ public class Scenery {
     private HashMap<String,Color> colors;
     private int x;
     private int y;
+    private ShadowState shadowState;
 
     /**
      * Constructs a new Scenery object with the given camera, lights, shapes, and rendering dimensions.
@@ -25,17 +28,18 @@ public class Scenery {
      * @param camera camera used to capture the scene.
      * @param lights list of light sources in the scene.
      * @param shapes list of geometric shapes in the scene.
-     * @param colors
+     * @param colors HashMap with all colors needed in the scene.
      * @param x      horizontal rendering dimension.
      * @param y      vertical rendering dimension.
      */
-    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, HashMap<String, Color> colors, int x, int y) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, HashMap<String, Color> colors, int x, int y, ShadowState shadowState) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
         this.colors = colors;
         this.x = x;
         this.y = y;
+        this.shadowState = shadowState;
     }
 
     /**
