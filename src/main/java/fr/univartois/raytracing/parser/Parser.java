@@ -142,9 +142,9 @@ public final class Parser {
      * @param parts An array of string parts containing camera properties.
      */
     private final void addCamera(String[] parts) {
-        Point lookFrom = new Point(new Triplet(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
-        Point lookAt = new Point(new Triplet(Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6])));
-        Vector up = new Vector(new Triplet(Integer.parseInt(parts[7]), Integer.parseInt(parts[8]), Integer.parseInt(parts[9])));
+        Point lookFrom = new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+        Point lookAt = new Point(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])));
+        Vector up = new Vector(new Triplet(Double.parseDouble(parts[7]), Double.parseDouble(parts[8]), Double.parseDouble(parts[9])));
         this.sceneryBuilder.setCamera(new Camera(lookFrom, lookAt, up, Integer.valueOf(parts[10])));
     }
 
