@@ -33,6 +33,7 @@ public class Scenery {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
+        this.colors = colors;
         this.x = x;
         this.y = y;
     }
