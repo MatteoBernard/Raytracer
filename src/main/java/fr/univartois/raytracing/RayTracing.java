@@ -21,8 +21,7 @@ public class RayTracing {
         BufferedImage image = new BufferedImage(scene.getX(),scene.getY(),BufferedImage.TYPE_INT_RGB);
         Point lookFrom = scene.getCamera().getLookFrom();
 
-        double min = scene.getX()*scene.getY();
-        double t,fovr,pixelHeight,pixelWidth,a,b;
+        double min,t,fovr,realHeight,realWidth,pixelHeight,pixelWidth,a,b;
         Vector w,up,u,v,d;
 
         w = (scene.getCamera().getLookFrom()).substraction(scene.getCamera().getLookAt());
@@ -35,18 +34,20 @@ public class RayTracing {
         v = w.vectorProduct(u);
         v = v.norm();
 
-
+        fovr = (scene.getCamera().getFov()*Math.PI)/180;
+        realHeight = 2* Math.tan(fovr/2);
 
         for (int i=0; i < scene.getX(); i++) {
             for (int j=0; j < scene.getY(); j++) {
+                min = scene.getX()*scene.getY();
                 for (IShape shape : scene.getShapes()) {
 
-                    fovr = (scene.getCamera().getFov()*Math.PI)/180;
-                    pixelHeight = Math.tan(fovr/2);
-                    pixelWidth = pixelHeight * ((double) scene.getX() /scene.getY());
+                    pixelHeight = realHeight/scene.getY();
+                    realWidth = scene.getX() * pixelHeight;
+                    pixelWidth = realWidth/scene.getX();
 
-                    a = -((double) scene.getX() /2)+(j+0.5)*pixelWidth;
-                    b = ((double) scene.getY() /2)-(i+0.5)*pixelHeight;
+                    a = -(realWidth/2)+(i+0.5)*pixelWidth;
+                    b = (realHeight/2)-(j+0.5)*pixelHeight;
 
 
                     d = ((u.scalarMultiplication(a)).addition(v.scalarMultiplication(b))).substraction(w);
@@ -62,16 +63,14 @@ public class RayTracing {
                 Color col;
                 if (min != scene.getX()*scene.getY()) {
                     col = scene.getColors().get("ambient");
-                    System.out.println(min);
-                    image.setRGB(i,j,155
-                            //(int)col.getTriplet().getX()*65536+
-                            //(int)col.getTriplet().getY()*256+
-                            //(int)col.getTriplet().getZ()
+                    image.setRGB(i,j,
+                            ((int)col.getTriplet().getX()*255)*65536+
+                                    ((int)col.getTriplet().getY()*255)*256+
+                                    ((int)col.getTriplet().getZ()*255)
                     );
                 }
                 else {
-                    col = new Color(new Triplet(0, 0, 0));
-                    image.setRGB(i, j, 0);
+                    image.setRGB(i,j,0);
                 }
             }
         }
@@ -87,9 +86,7 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/1redsph.txt");
-
-        System.out.println(p.getLights());
+        p.useParser("src/main/resources/generators/mickey.txt");
 
         SceneryBuilder build = new SceneryBuilder(p.getDimensions()[0],p.getDimensions()[1]);
         build.setCamera(p.getCamera());
@@ -98,10 +95,6 @@ public class RayTracing {
         build.setColors(p.getColors());
 
         Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY());
-
-        for (IShape shape : scene.getShapes()) {
-            System.out.println(shape);
-        }
 
         RayTracing rt = new RayTracing();
         rt.launch(scene,p.getOutput());
