@@ -1,23 +1,20 @@
 package fr.univartois.raytracing.parser;
 
 import fr.univartois.raytracing.light.DirectionalLight;
-import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.light.PonctualLight;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.scenery.Camera;
-import fr.univartois.raytracing.shape.IShape;
+import fr.univartois.raytracing.scenery.SceneryBuilder;
 import fr.univartois.raytracing.shape.Plane;
 import fr.univartois.raytracing.shape.Sphere;
 import fr.univartois.raytracing.shape.Tri;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
 public final class Parser {
@@ -45,40 +42,27 @@ public final class Parser {
 
     private Scanner scanner;
     private HashMap<String, Color> colors;
-    private List<IShape> shapes;
-    private Integer[] dimensions;
-    private List<ILight> lights;
     private Point[] points;
     private int nbPoints;
-    private Camera camera;
     private int shininess;
     private int maxverts;
     private String output;
     private boolean activeShadow;
+    private SceneryBuilder sceneryBuilder;
 
     // Constructor
 
     /**
      * Initializes a new Parser object.
-     * - shapes: A list to store objects.
      * - maxverts: Maximum number of points.
      * - shininess: Shininess integer.
-     * - lights: A list to store light.
      * - output: Output file name.
-     * - dimensions: An array to store the image dimensions (width, height).
-     * - camera: Camera object.
      * - nbPoints: Number of points.
      * - colors: A hashmap of colors(Color objects).
      */
     public Parser() {
-        this.shapes = new ArrayList<IShape>();
-        this.maxverts = -1;
         this.shininess = -1;
-        this.lights = new ArrayList<ILight>();
-        this.output = "";
-        this.dimensions = new Integer[]{-1, -1};
-        this.camera = null;
-        this.nbPoints = -1;
+        this.output = "output.png";
         this.colors = new HashMap<String, Color>();
         this.activeShadow = false;
     }
@@ -86,67 +70,11 @@ public final class Parser {
     // Getters
 
     /**
-     * Get the mapping of color names to Color objects.
-     * @return A HashMap containing color names and their corresponding Color objects.
-     */
-    public HashMap<String, Color> getColors() {
-        return colors;
-    }
-
-    /**
-     * Get the list of shape objects.
-     * @return A List of IShape objects.
-     */
-    public List<IShape> getShapes() {
-        return shapes;
-    }
-
-    /**
-     * Get the dimensions of the image (width and height).
-     * @return An array of two Integers representing the image dimensions [width, height].
-     */
-    public Integer[] getDimensions() {
-        return dimensions;
-    }
-
-    /**
-     * Get the list of light objects.
-     * @return A List of ILight objects.
-     */
-    public List<ILight> getLights() {
-        return lights;
-    }
-
-    /**
-     * Get the array of Point objects.
-     * @return An array of Point objects.
-     */
-    public Point[] getPoints() {
-        return points;
-    }
-
-    /**
-     * Get the camera object.
-     * @return A Camera object representing the camera properties.
-     */
-    public Camera getCamera() {
-        return camera;
-    }
-
-    /**
      * Get the shininess coefficient.
      * @return An integer representing the shininess coefficient.
      */
     public int getShininess() {
         return shininess;
-    }
-
-    /**
-     * Get the maximum number of vertices.
-     * @return An integer representing the maximum number of vertices.
-     */
-    public int getMaxverts() {
-        return maxverts;
     }
 
     /**
@@ -164,6 +92,16 @@ public final class Parser {
     public boolean getActiveShadow() {
         return activeShadow;
     }
+
+    /**
+     * Get the SceneryBuilder object.
+     * @return A SceneryBuilder containing all datas needed to build the Scenery.
+     */
+    public SceneryBuilder getSceneryBuilder() {
+        return sceneryBuilder;
+    }
+
+    // Process file methods
 
     /**
      * Opens a text file for reading.
@@ -191,7 +129,7 @@ public final class Parser {
      *
      * @return 'true' if the line should be read (not empty and does not start with '#'), 'false' otherwise.
      */
-    public static boolean toRead(String line) {
+    public static final boolean toRead(String line) {
         if (line == null || line.isEmpty()) {
             return false;
         }
@@ -207,7 +145,7 @@ public final class Parser {
         Point lookFrom = new Point(new Triplet(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
         Point lookAt = new Point(new Triplet(Integer.parseInt(parts[4]), Integer.parseInt(parts[5]), Integer.parseInt(parts[6])));
         Vector up = new Vector(new Triplet(Integer.parseInt(parts[7]), Integer.parseInt(parts[8]), Integer.parseInt(parts[9])));
-        this.camera = new Camera(lookFrom, lookAt, up, Integer.valueOf(parts[10]));
+        this.sceneryBuilder.setCamera(new Camera(lookFrom, lookAt, up, Integer.valueOf(parts[10])));
     }
 
     /**
@@ -220,7 +158,9 @@ public final class Parser {
     private final void addAmbient(String[] parts) throws Exception {
         boolean good = true;
         Color c = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
-        if (colors.containsKey("diffuse")) {
+        if (colors.containsKey("ambient"))
+            throw new Exception("Incorrect entry (ambient already defined)");
+        else if (colors.containsKey("diffuse")) {
             if (colors.get("diffuse").getTriplet().getX() + Double.parseDouble(parts[1]) > 1 ||
                     colors.get("diffuse").getTriplet().getY() + Double.parseDouble(parts[2]) > 1 ||
                     colors.get("diffuse").getTriplet().getZ() + Double.parseDouble(parts[3]) > 1)
@@ -281,12 +221,7 @@ public final class Parser {
      * @param parts An array of string parts containing sphere properties.
      */
     private final void addSphere(String[] parts) {
-        this.shapes.add(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4])));
-        System.out.println(parts[1]);
-        System.out.println(parts[2]);
-        System.out.println(parts[3]);
-        System.out.println(parts[4]);
-
+        this.sceneryBuilder.addShape(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4])));
     }
 
     /**
@@ -298,7 +233,7 @@ public final class Parser {
         Point p1 = this.points[(Integer.parseInt(parts[1]))];
         Point p2 = this.points[(Integer.parseInt(parts[2]))];
         Point p3 = this.points[(Integer.parseInt(parts[3]))];
-        this.shapes.add(new Tri(p1, p2, p3));
+        this.sceneryBuilder.addShape(new Tri(p1, p2, p3));
     }
 
     /**
@@ -307,7 +242,7 @@ public final class Parser {
      * @param parts An array of string parts containing plane properties.
      */
     private final void addPlane(String[] parts) {
-        this.shapes.add(new Plane(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))),
+        this.sceneryBuilder.addShape(new Plane(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))),
                 new Vector(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])))));
     }
 
@@ -352,7 +287,7 @@ public final class Parser {
                             switch (attribute) {
 
                                 case "size" : {
-                                    this.dimensions = new Integer[]{Integer.valueOf(parts[1]), Integer.valueOf(parts[2])};
+                                    this.sceneryBuilder = new SceneryBuilder(Integer.valueOf(parts[1]), Integer.valueOf(parts[2]));
                                     break;
                                 }
                                 case "output" : {
@@ -380,12 +315,12 @@ public final class Parser {
                                     break;
                                 }
                                 case "directional" : {
-                                    lights.add(new DirectionalLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
+                                    this.sceneryBuilder.addLight(new DirectionalLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
                                         new Vector(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
                                     break;
                                 }
                                 case "point" : {
-                                    lights.add(new PonctualLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
+                                    this.sceneryBuilder.addLight(new PonctualLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
                                             new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
                                     break;
                                 }
@@ -396,8 +331,12 @@ public final class Parser {
                                     break;
                                 }
                                 case "vertex" : {
-                                    this.points[nbPoints] = (new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))));
-                                    this.nbPoints ++;
+                                    if (this.nbPoints < this.maxverts) {
+                                        this.points[nbPoints] = (new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))));
+                                        this.nbPoints ++;
+                                    }
+                                    else
+                                        throw new Exception("Incorrect entry (too much points than expected)");
                                     break;
                                 }
                                 case "sphere" : {
@@ -441,11 +380,7 @@ public final class Parser {
     public void useParser(String fileName) throws Exception {
         this.openFile(fileName);
         this.processFile();
+        this.sceneryBuilder.setColors(this.colors);
         this.closeFile();
-    }
-
-    public static void main(String[] args) throws Exception {
-        Parser p = new Parser();
-        p.useParser("/home/matteobernard/BUT2/SAE_S3/raytracing-groupe10/src/main/java/fr/univartois/raytracing/parser/test.txt");
     }
 }
