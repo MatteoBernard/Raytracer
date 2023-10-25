@@ -1,6 +1,9 @@
 package fr.univartois.raytracing;
 
 
+import fr.univartois.raytracing.Colors.ICalcul;
+import fr.univartois.raytracing.Colors.Lambert;
+import fr.univartois.raytracing.Colors.Normal;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
@@ -18,11 +21,16 @@ import java.io.IOException;
 public class RayTracing {
 
     public void launch (Scenery scene,String output) {
+        ICalcul calculMethod;
+        calculMethod = new Lambert(new Normal(scene));
+        Vector d = null;
+
         BufferedImage image = new BufferedImage(scene.getX(),scene.getY(),BufferedImage.TYPE_INT_RGB);
         Point lookFrom = scene.getCamera().getLookFrom();
+        IShape currentShape = null;
 
         double min,t,fovr,realHeight,realWidth,pixelHeight,pixelWidth,a,b;
-        Vector w,up,u,v,d;
+        Vector w,up,u,v;
 
         w = (scene.getCamera().getLookFrom()).substraction(scene.getCamera().getLookAt());
         w = w.norm();
@@ -57,17 +65,13 @@ public class RayTracing {
                     t = shape.intersect(lookFrom,d);
                     if (t < min && t != -1) {
                         min = t;
+                        currentShape=shape;
                     }
                 }
 
                 Color col;
                 if (min != scene.getX()*scene.getY()) {
-                    col = scene.getColors().get("ambient");
-                    image.setRGB(i,j,
-                            ((int)col.getTriplet().getX()*255)*65536+
-                                    ((int)col.getTriplet().getY()*255)*256+
-                                    ((int)col.getTriplet().getZ()*255)
-                    );
+                    calculMethod.colorCalcul(currentShape,d);
                 }
                 else {
                     image.setRGB(i,j,0);
