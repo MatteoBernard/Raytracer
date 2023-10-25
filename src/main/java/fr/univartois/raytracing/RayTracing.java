@@ -86,7 +86,7 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/mickey.txt");
+        p.useParser("src/main/resources/generators/tri.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
         Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY());
