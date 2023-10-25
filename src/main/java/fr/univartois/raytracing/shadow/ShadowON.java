@@ -11,7 +11,4 @@ public class ShadowON implements ShadowState {
             instance =  new ShadowON();
         return instance;
     }
-
-
-
 }

@@ -11,5 +11,4 @@ public class ShadowOFF implements ShadowState {
             instance =  new ShadowOFF();
         return instance;
     }
-
 }
