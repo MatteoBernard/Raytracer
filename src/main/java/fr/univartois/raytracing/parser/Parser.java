@@ -273,7 +273,7 @@ public final class Parser {
     }
 
     /**
-     * Sets the value of the activeShadow attribute based on the input 'parts' array.
+     * Sets the value of the sceneryBuilder.stateShadow attribute based on the input 'parts' array.
      *
      * @param parts An array of string parts containing shadow property.
      *
