@@ -129,7 +129,7 @@ public final class Parser {
      *
      * @return 'true' if the line should be read (not empty and does not start with '#'), 'false' otherwise.
      */
-    public static final boolean toRead(String line) {
+    public static boolean toRead(String line) {
         if (line == null || line.isEmpty()) {
             return false;
         }
@@ -213,6 +213,40 @@ public final class Parser {
             this.shininess = i;
         else
             throw new Exception("Incorrect entry (shininess)");
+    }
+
+    /**
+     * Adds a new light to the scene. Ensures that the sum of the R, G, and B components
+     * of the light's color and the colors of existing lights in the scene do not exceed 1.
+     *
+     * @param parts An array containing information about the new light, including its type, color,
+     *              and direction or position.
+     *
+     * @throws Exception If the sum of the R, G, or B components of the new light and existing lights
+     *                   exceeds 1, indicating an incorrect entry.
+     */
+    private final void addLight(String[] parts) throws Exception {
+
+        double r = Double.parseDouble(parts[1]);
+        double g = Double.parseDouble(parts[2]);
+        double b = Double.parseDouble(parts[3]);
+
+        for (int i = 0 ; i < this.sceneryBuilder.getLights().size() ; i++) {
+            r += this.sceneryBuilder.getLights().get(i).getColor().getTriplet().getX();
+            g += this.sceneryBuilder.getLights().get(i).getColor().getTriplet().getY();
+            b += this.sceneryBuilder.getLights().get(i).getColor().getTriplet().getZ();
+        }
+
+        if (r > 1 || g > 1 || b > 1)
+            throw new Exception("Incorrect entry (light values)");
+        else
+
+            if (parts[1].equals("directional"))
+                this.sceneryBuilder.addLight(new DirectionalLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
+                        new Vector(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
+            else
+                this.sceneryBuilder.addLight(new PonctualLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
+                        new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
     }
 
     /**
@@ -314,14 +348,8 @@ public final class Parser {
                                     addShininess(parts);
                                     break;
                                 }
-                                case "directional" : {
-                                    this.sceneryBuilder.addLight(new DirectionalLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
-                                        new Vector(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
-                                    break;
-                                }
-                                case "point" : {
-                                    this.sceneryBuilder.addLight(new PonctualLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
-                                            new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
+                                case "directional", "point": {
+                                    this.addLight(parts);
                                     break;
                                 }
                                 case "maxverts" : {
