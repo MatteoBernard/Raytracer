@@ -74,12 +74,12 @@ public class RayTracing {
                 Color col;
                 if (min != scene.getX()*scene.getY()) {
                     col = calculMethod.colorCalcul(currentShape,d);
-                    float red = (float) (col.getTriplet().getX() * 255);
-                    float green = (float) (col.getTriplet().getY() * 255);
-                    float blue = (float) (col.getTriplet().getZ() * 255);
+                    float red = (float) (col.getTriplet().getX());
+                    float green = (float) (col.getTriplet().getY());
+                    float blue = (float) (col.getTriplet().getZ());
+                    java.awt.Color color = new java.awt.Color(red,blue,green);
 
-                    int rgbValue = (int)((red * 65536) + (green * 256) + blue);
-
+                    int rgbValue = color.getRGB();
                     image.setRGB(i,j,rgbValue);
 
                 }
@@ -100,7 +100,7 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/mickey.txt");
+        p.useParser("src/main/resources/generators/lambert.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
         Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY(),build.getShadowState());
