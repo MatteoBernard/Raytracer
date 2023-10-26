@@ -80,5 +80,10 @@ public class Plane implements IShape{
         t=t/d.scalarProduct(this.normal);
         return t;
     }
+
+    @Override
+    public Point getCenter() {
+        return null;
+    }
 }
 
