@@ -39,7 +39,7 @@ public class Lambert implements ICalcul {
 
         Point o = scene.getCamera().getLookFrom();
         Point p = d.scalarMultiplication(sphere.intersect(o,d)).addition(o);
-        n = p.substraction(sphere.getPoint());
+        n = p.substraction(sphere.getCenter());
         n=n.norm();
 
         double a;
