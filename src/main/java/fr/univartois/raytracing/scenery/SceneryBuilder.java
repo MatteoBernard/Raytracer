@@ -130,4 +130,7 @@ public class SceneryBuilder implements Builder {
     public void setAmbient(Color ambient) {
         this.ambient = ambient;
     }
+    public Color getAmbient() {
+        return ambient;
+    }
 }
