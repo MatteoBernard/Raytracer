@@ -237,7 +237,7 @@ public final class Parser {
      * @param parts An array of string parts containing sphere properties.
      */
     private final void addSphere(String[] parts) {
-        this.sceneryBuilder.addShape(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4])));
+        this.sceneryBuilder.addShape(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4]), diffuse, specular, shininess));
     }
 
     /**
@@ -249,7 +249,7 @@ public final class Parser {
         Point p1 = this.points[(Integer.parseInt(parts[1]))];
         Point p2 = this.points[(Integer.parseInt(parts[2]))];
         Point p3 = this.points[(Integer.parseInt(parts[3]))];
-        this.sceneryBuilder.addShape(new Tri(p1, p2, p3));
+        this.sceneryBuilder.addShape(new Tri(p1, p2, p3, diffuse, specular, shininess));
     }
 
     /**
@@ -259,7 +259,7 @@ public final class Parser {
      */
     private final void addPlane(String[] parts) {
         this.sceneryBuilder.addShape(new Plane(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))),
-                new Vector(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])))));
+                new Vector(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))), diffuse, specular, shininess));
     }
 
     /**
