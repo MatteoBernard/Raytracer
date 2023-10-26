@@ -13,7 +13,7 @@ public class Color {
 
     public Color addition(Color add) {
        // new
-        return new Color(triplet.addition(add.getTriplet()));
+        return new Color(this.triplet.addition(add.getTriplet()));
     }
 
     public Color scalarMultiplication(double d) {
@@ -22,5 +22,10 @@ public class Color {
 
     public Color schurProduct(Color product) {
         return new Color(triplet.schurProduct(product.getTriplet()));
+    }
+
+    @Override
+    public String toString() {
+        return this.triplet.toString();
     }
 }

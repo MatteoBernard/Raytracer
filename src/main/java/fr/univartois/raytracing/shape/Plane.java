@@ -77,7 +77,8 @@ public class Plane implements IShape{
         if (d.scalarProduct(this.normal)==0){
             throw new UnsupportedOperationException("Dividing by zero isn't possible");
         }
-        return t/d.scalarProduct(this.normal);
+        t=t/d.scalarProduct(this.normal);
+        return t;
     }
 }
 

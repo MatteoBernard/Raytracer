@@ -58,7 +58,9 @@ public class RayTracing {
                     b = (realHeight/2)-(j+0.5)*pixelHeight;
 
 
-                    d = ((u.scalarMultiplication(a)).addition(v.scalarMultiplication(b))).substraction(w);
+                    d = ((u.scalarMultiplication(a))
+                            .addition(v.scalarMultiplication(b)))
+                            .substraction(w);
                     d = d.norm();
 
 
@@ -71,10 +73,18 @@ public class RayTracing {
 
                 Color col;
                 if (min != scene.getX()*scene.getY()) {
-                    calculMethod.colorCalcul(currentShape,d);
+                    col = calculMethod.colorCalcul(currentShape,d);
+                    image.setRGB(i,j,
+                            ((int)col.getTriplet().getX()*255)*65536+
+                                    ((int)col.getTriplet().getY()*255)*256+
+                                    ((int)col.getTriplet().getZ()*255)
+                    );
                 }
                 else {
-                    image.setRGB(i,j,0);
+                    col = scene.getColors().get("ambient");
+                    image.setRGB(i,j,((int)col.getTriplet().getX()*255)*65536+
+                            ((int)col.getTriplet().getY()*255)*256+
+                            ((int)col.getTriplet().getZ()*255));
                 }
             }
         }
@@ -93,7 +103,7 @@ public class RayTracing {
         p.useParser("src/main/resources/generators/tri.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
-        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY());
+        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY(),build.getShadowState());
 
         RayTracing rt = new RayTracing();
         rt.launch(scene,p.getOutput());

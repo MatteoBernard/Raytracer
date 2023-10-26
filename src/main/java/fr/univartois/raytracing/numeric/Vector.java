@@ -43,4 +43,9 @@ public class Vector {
     public Vector norm() {
         return new Vector(triplet.norm());
     }
+
+    @Override
+    public String toString() {
+        return this.triplet.toString();
+    }
 }

@@ -54,4 +54,12 @@ public class PonctualLight implements ILight{
     public Color getColor() {
         return this.color;
     }
+
+    @Override
+    public String toString() {
+        return "PonctualLight{" +
+                "color=" + color +
+                ", coord=" + coord +
+                '}';
+    }
 }

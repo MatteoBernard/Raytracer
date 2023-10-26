@@ -74,7 +74,6 @@ public class Sphere implements IShape {
         double t;
         if (delta == 0) {
             t = ((b*-1)/(2*a));
-
             return t;
         }
         else {

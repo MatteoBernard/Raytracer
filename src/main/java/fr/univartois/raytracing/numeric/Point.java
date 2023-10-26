@@ -37,5 +37,10 @@ public class Point {
     public Point scalarMultiplication(double d){ // we use the scalar Multiplication from Triplet but it returns a Point
         return new Point(triplet.scalarMultiplication(d));
     }
+
+    @Override
+    public String toString() {
+        return this.triplet.toString();
+    }
 }
 
