@@ -19,26 +19,32 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * This class parses a text file containing scene description and populates a SceneryBuilder
+ * with the specified scene elements.
+ */
 public final class Parser {
 
-    // Static attribute
+    // Static attributes, and its fill
 
-    private static final HashMap<String, Integer> expectedParams = new HashMap<String, Integer>() {{
-        put("sphere", 4);
-        put("vertex", 3);
-        put("tri", 3);
-        put("plane", 6);
-        put("size", 2);
-        put("output", 1);
-        put("camera", 10);
-        put("ambient", 3);
-        put("diffuse", 3);
-        put("specular", 3);
-        put("shininess", 1);
-        put("directional", 6);
-        put("point", 6);
-        put("maxverts", 1);
-    }};
+    private static final HashMap<String, Integer> expectedParams = new HashMap<>();
+
+    static {
+        expectedParams.put("sphere", 4);
+        expectedParams.put("vertex", 3);
+        expectedParams.put("tri", 3);
+        expectedParams.put("plane", 6);
+        expectedParams.put("size", 2);
+        expectedParams.put("output", 1);
+        expectedParams.put("camera", 10);
+        expectedParams.put("ambient", 3);
+        expectedParams.put("diffuse", 3);
+        expectedParams.put("specular", 3);
+        expectedParams.put("shininess", 1);
+        expectedParams.put("directional", 6);
+        expectedParams.put("point", 6);
+        expectedParams.put("maxverts", 1);
+    }
 
     // Instance attributes
 
@@ -149,13 +155,13 @@ public final class Parser {
      *
      * @param parts An array of string parts containing ambient color properties.
      *
-     * @throws Exception If the entry is incorrect (e.g., color values exceeding 1).
+     * @throws ParserException If the entry is incorrect (e.g., color values exceeding 1).
      */
-    private final void addAmbient(String[] parts) throws Exception {
+    private final void addAmbient(String[] parts) throws ParserException {
         if (ambient == null) {
             this.ambient = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
         }
-        else throw new Exception("Incorrect entry (ambient already defined)");
+        else throw new ParserException("Incorrect entry (ambient already defined)");
     }
 
     /**
@@ -163,9 +169,9 @@ public final class Parser {
      *
      * @param parts An array of string parts containing diffuse color properties.
      *
-     * @throws Exception If the entry is incorrect (e.g., color values exceeding 1).
+     * @throws ParserException If the entry is incorrect (e.g., color values exceeding 1).
      */
-    private final void addDiffuse(String[] parts) throws Exception {
+    private final void addDiffuse(String[] parts) throws ParserException {
         boolean good = true;
         Color c = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
         if (ambient != null) {
@@ -176,7 +182,7 @@ public final class Parser {
             if (good) {
                 diffuse = c;
             } else
-                throw new Exception("Incorrect entry (diffuse)");
+                throw new ParserException("Incorrect entry (diffuse)");
         } else {
             diffuse = c;
         }
@@ -187,14 +193,14 @@ public final class Parser {
      *
      * @param parts An array of string parts containing shininess coefficient.
      *
-     * @throws Exception If the entry is incorrect (e.g., negative value).
+     * @throws ParserException If the entry is incorrect (e.g., negative value).
      */
-    private final void addShininess(String[] parts) throws Exception {
+    private final void addShininess(String[] parts) throws ParserException {
         int i = Integer.parseInt(parts[1]);
         if (i >= 0)
             this.shininess = i;
         else
-            throw new Exception("Incorrect entry (shininess)");
+            throw new ParserException("Incorrect entry (shininess)");
     }
 
     /**
@@ -204,10 +210,10 @@ public final class Parser {
      * @param parts An array containing information about the new light, including its type, color,
      *              and direction or position.
      *
-     * @throws Exception If the sum of the R, G, or B components of the new light and existing lights
+     * @throws ParserException If the sum of the R, G, or B components of the new light and existing lights
      *                   exceeds 1, indicating an incorrect entry.
      */
-    private final void addLight(String[] parts) throws Exception {
+    private final void addLight(String[] parts) throws ParserException {
 
         double r = Double.parseDouble(parts[4]);
         double g = Double.parseDouble(parts[5]);
@@ -220,7 +226,7 @@ public final class Parser {
         }
 
         if (r > 1 || g > 1 || b > 1)
-            throw new Exception("Incorrect entry (light values)");
+            throw new ParserException("Incorrect entry (light values > 1)");
         else
 
             if (parts[0].equals("directional"))
@@ -267,116 +273,121 @@ public final class Parser {
      *
      * @param parts An array of string parts containing shadow property.
      *
-     * @throws Exception If the entry is incorrect (others values than true or false).
+     * @throws ParserException If the entry is incorrect (others values than true or false).
      */
-    private final void setActiveShadow(String[] parts) throws Exception {
+    private final void setActiveShadow(String[] parts) throws ParserException {
         if (parts[1].equals("true"))
             this.sceneryBuilder.setShadowState(ShadowON.getInstance());
         else if (parts[1].equals("false"))
             this.sceneryBuilder.setShadowState(ShadowOFF.getInstance());
         else
-            throw new Exception("Incorrect entry (shadow)");
+            throw new ParserException("Incorrect entry (shadow)");
     }
 
     /**
-     * Processes the content of the input file, parsing and handling different attributes and their corresponding parameters.
+     * Processes the entire file, reading lines and handling attribute assignments.
      *
-     * @throws Exception If there is an issue with the input file, such as incorrect attributes, incorrect argument counts,
-     * or unrecognized attributes.
+     * @throws ParserException If there are errors in the parsing process.
      */
-    private final void processFile() throws Exception {
+    private final void processFile() throws ParserException {
         String line = null;
 
         while (scanner.hasNextLine()) {
             line = scanner.nextLine();
 
             if (toRead(line)) {
-                String[] parts = line.split("\\s+");
-                if (parts.length > 0) {
-                    String attribute = parts[0];
-
-                    if (expectedParams.containsKey(attribute)) {
-                        int expectedParamCount = expectedParams.get(attribute);
-
-                        if (parts.length - 1 == expectedParamCount) {
-
-                            switch (attribute) {
-
-                                case "size" : {
-                                    this.sceneryBuilder = new SceneryBuilder(Integer.valueOf(parts[1]), Integer.valueOf(parts[2]));
-                                    break;
-                                }
-                                case "output" : {
-                                    this.output = parts[1];
-                                    break;
-                                }
-                                case "camera" : {
-                                    addCamera(parts);
-                                    break;
-                                }
-                                case "ambient" : {
-                                    addAmbient(parts);
-                                    break;
-                                }
-                                case "diffuse" : {
-                                    addDiffuse(parts);
-                                    break;
-                                }
-                                case "specular" : {
-                                    this.specular = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
-                                    break;
-                                }
-                                case "shininess" : {
-                                    addShininess(parts);
-                                    break;
-                                }
-                                case "directional", "point": {
-                                    this.addLight(parts);
-                                    break;
-                                }
-                                case "maxverts" : {
-                                    this.maxverts = Integer.parseInt(parts[1]);
-                                    this.points = new Point[this.maxverts];
-                                    this.nbPoints = 0;
-                                    break;
-                                }
-                                case "vertex" : {
-                                    if (this.nbPoints < this.maxverts) {
-                                        this.points[nbPoints] = (new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))));
-                                        this.nbPoints ++;
-                                    }
-                                    else
-                                        throw new Exception("Incorrect entry (too much points than expected)");
-                                    break;
-                                }
-                                case "sphere" : {
-                                    this.addSphere(parts);
-                                    break;
-                                }
-                                case "tri" : {
-                                    this.addTri(parts);
-                                    break;
-                                }
-                                case "plane" : {
-                                    this.addPlane(parts);
-                                    break;
-                                }
-                                case "shadow" : {
-                                    this.setActiveShadow(parts);
-                                    break;
-                                }
-                                default : {
-                                    throw new Exception("Incorrect entry");
-                                }
-                            }
-                        } else {
-                            throw new Exception("Incorrect number of arguments for attribute " + attribute + "'.");
-                        }
-                    } else {
-                        throw new Exception("Unrecognized attribut : " + attribute);
-                    }
-                }
+                processLine(line);
             }
+        }
+    }
+
+    /**
+     * Processes a single line from the input file and assigns attributes.
+     *
+     * @param line The line to be processed.
+     *
+     * @throws ParserException If there are errors in the parsing process.
+     */
+    private void processLine(String line) throws ParserException {
+        String[] parts = line.split("\\s+");
+        if (parts.length > 0) {
+            String attribute = parts[0];
+
+            if (expectedParams.containsKey(attribute)) {
+                int expectedParamCount = expectedParams.get(attribute);
+
+                if (parts.length - 1 == expectedParamCount) {
+                    processAttribute(attribute, parts);
+                } else {
+                    throw new ParserException("Incorrect number of arguments for attribute '" + attribute + "'.");
+                }
+            } else {
+                throw new ParserException("Unrecognized attribute: " + attribute);
+            }
+        }
+    }
+
+    /**
+     * Processes a specific attribute and assigns its value based on the attribute type.
+     *
+     * @param attribute The attribute identifier.
+     * @param parts     The array of attribute components.
+     *
+     * @throws ParserException If there are errors in the parsing process.
+     */
+    private void processAttribute(String attribute, String[] parts) throws ParserException {
+        switch (attribute) {
+            case "size":
+                this.sceneryBuilder = new SceneryBuilder(Integer.valueOf(parts[1]), Integer.valueOf(parts[2]));
+                break;
+            case "output":
+                this.output = parts[1];
+                break;
+            case "camera":
+                addCamera(parts);
+                break;
+            case "ambient":
+                addAmbient(parts);
+                break;
+            case "diffuse":
+                addDiffuse(parts);
+                break;
+            case "specular":
+                this.specular = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+                break;
+            case "shininess":
+                addShininess(parts);
+                break;
+            case "directional", "point":
+                this.addLight(parts);
+                break;
+            case "maxverts":
+                this.maxverts = Integer.parseInt(parts[1]);
+                this.points = new Point[this.maxverts];
+                this.nbPoints = 0;
+                break;
+            case "vertex":
+                if (this.nbPoints < this.maxverts) {
+                    this.points[nbPoints] = (new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))));
+                    this.nbPoints++;
+                } else {
+                    throw new ParserException("Incorrect entry (too many points than expected)");
+                }
+                break;
+            case "sphere":
+                this.addSphere(parts);
+                break;
+            case "tri":
+                this.addTri(parts);
+                break;
+            case "plane":
+                this.addPlane(parts);
+                break;
+            case "shadow":
+                this.setActiveShadow(parts);
+                break;
+            default:
+                throw new ParserException("Incorrect entry");
         }
     }
 
@@ -385,9 +396,9 @@ public final class Parser {
      *
      * @param fileName The name of the text file to be processed.
      *
-     * @throws Exception If there is an issue with the input file, parsing errors, or file handling errors.
+     * @throws FileNotFoundException If there is an issue with the input file, parsing errors, or file handling errors.
      */
-    public void useParser(String fileName) throws Exception {
+    public void useParser(String fileName) throws FileNotFoundException {
         this.openFile(fileName);
         this.processFile();
         this.sceneryBuilder.setAmbient(ambient);
