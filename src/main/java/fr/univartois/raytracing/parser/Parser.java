@@ -223,9 +223,9 @@ public final class Parser {
      */
     private final void addLight(String[] parts) throws Exception {
 
-        double r = Double.parseDouble(parts[1]);
-        double g = Double.parseDouble(parts[2]);
-        double b = Double.parseDouble(parts[3]);
+        double r = Double.parseDouble(parts[4]);
+        double g = Double.parseDouble(parts[5]);
+        double b = Double.parseDouble(parts[6]);
 
         for (int i = 0 ; i < this.sceneryBuilder.getLights().size() ; i++) {
             r += this.sceneryBuilder.getLights().get(i).getColor().getTriplet().getX();
@@ -405,6 +405,8 @@ public final class Parser {
         this.openFile(fileName);
         this.processFile();
         this.sceneryBuilder.setColors(this.colors);
+        if (!(this.colors.containsKey("ambient")))
+            colors.put("ambient", new Color(new Triplet(1, 1, 1)));
         this.closeFile();
     }
 }
