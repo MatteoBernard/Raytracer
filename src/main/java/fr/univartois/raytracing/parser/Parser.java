@@ -43,7 +43,9 @@ public final class Parser {
     // Instance attributes
 
     private Scanner scanner;
-    private HashMap<String, Color> colors;
+    private Color ambient;
+    private Color diffuse;
+    private Color specular;
     private Point[] points;
     private int nbPoints;
     private int shininess;
@@ -62,9 +64,11 @@ public final class Parser {
      * - colors: A hashmap of colors(Color objects).
      */
     public Parser() {
-        this.shininess = -1;
+        this.ambient = null;
+        this.diffuse = new Color(new Triplet(0, 0, 0));
+        this.specular = new Color(new Triplet(0, 0, 0));
+        this.shininess = 45;
         this.output = "output.png";
-        this.colors = new HashMap<String, Color>();
     }
 
     // Getters
@@ -148,23 +152,10 @@ public final class Parser {
      * @throws Exception If the entry is incorrect (e.g., color values exceeding 1).
      */
     private final void addAmbient(String[] parts) throws Exception {
-        boolean good = true;
-        Color c = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
-        if (colors.containsKey("ambient"))
-            throw new Exception("Incorrect entry (ambient already defined)");
-        else if (colors.containsKey("diffuse")) {
-            if (colors.get("diffuse").getTriplet().getX() + Double.parseDouble(parts[1]) > 1 ||
-                    colors.get("diffuse").getTriplet().getY() + Double.parseDouble(parts[2]) > 1 ||
-                    colors.get("diffuse").getTriplet().getZ() + Double.parseDouble(parts[3]) > 1)
-                good = false;
-            if (good) {
-                colors.put("ambient", c);
-            } else {
-                throw new Exception("Incorrect entry (ambient)");
-            }
-        } else {
-            colors.put("ambient", c);
+        if (ambient == null) {
+            this.ambient = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
         }
+        else throw new Exception("Incorrect entry (ambient already defined)");
     }
 
     /**
@@ -177,22 +168,17 @@ public final class Parser {
     private final void addDiffuse(String[] parts) throws Exception {
         boolean good = true;
         Color c = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
-        if (colors.containsKey("ambient")) {
-            if (colors.get("ambient").getTriplet().getX() + Double.parseDouble(parts[1]) > 1 ||
-                    colors.get("ambient").getTriplet().getY() + Double.parseDouble(parts[2]) > 1 ||
-                    colors.get("ambient").getTriplet().getZ() + Double.parseDouble(parts[3]) > 1)
+        if (ambient != null) {
+            if (ambient.getTriplet().getX() + Double.parseDouble(parts[1]) > 1 ||
+                   ambient.getTriplet().getY() + Double.parseDouble(parts[2]) > 1 ||
+                    ambient.getTriplet().getZ() + Double.parseDouble(parts[3]) > 1)
                 good = false;
             if (good) {
-                colors.put("diffuse", c);
-            } else {
-                System.out.println(colors.get("diffuse"));
-                System.out.println(Double.parseDouble(parts[1]));
-                System.out.println(Double.parseDouble(parts[2]));
-                System.out.println(Double.parseDouble(parts[3]));
+                diffuse = c;
+            } else
                 throw new Exception("Incorrect entry (diffuse)");
-            }
         } else {
-            colors.put("diffuse", c);
+            diffuse = c;
         }
     }
 
@@ -251,7 +237,7 @@ public final class Parser {
      * @param parts An array of string parts containing sphere properties.
      */
     private final void addSphere(String[] parts) {
-        this.sceneryBuilder.addShape(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4])));
+        this.sceneryBuilder.addShape(new Sphere(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))), Double.parseDouble(parts[4]), diffuse, specular, shininess));
     }
 
     /**
@@ -263,7 +249,7 @@ public final class Parser {
         Point p1 = this.points[(Integer.parseInt(parts[1]))];
         Point p2 = this.points[(Integer.parseInt(parts[2]))];
         Point p3 = this.points[(Integer.parseInt(parts[3]))];
-        this.sceneryBuilder.addShape(new Tri(p1, p2, p3));
+        this.sceneryBuilder.addShape(new Tri(p1, p2, p3, diffuse, specular, shininess));
     }
 
     /**
@@ -273,7 +259,7 @@ public final class Parser {
      */
     private final void addPlane(String[] parts) {
         this.sceneryBuilder.addShape(new Plane(new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))),
-                new Vector(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])))));
+                new Vector(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))), diffuse, specular, shininess));
     }
 
     /**
@@ -337,7 +323,7 @@ public final class Parser {
                                     break;
                                 }
                                 case "specular" : {
-                                    colors.put("specular", new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3]))));
+                                    this.specular = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
                                     break;
                                 }
                                 case "shininess" : {
@@ -404,9 +390,6 @@ public final class Parser {
     public void useParser(String fileName) throws Exception {
         this.openFile(fileName);
         this.processFile();
-        this.sceneryBuilder.setColors(this.colors);
-        if (!(this.colors.containsKey("ambient")))
-            colors.put("ambient", new Color(new Triplet(1, 1, 1)));
         this.closeFile();
     }
 }

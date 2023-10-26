@@ -20,7 +20,6 @@ public class SceneryBuilder implements Builder {
     private Camera camera;
     private List<ILight> lights;
     private List<IShape> shapes;
-    private HashMap<String,Color> colors;
     private ShadowState shadowState;
     private int x;
     private int y;
@@ -102,14 +101,6 @@ public class SceneryBuilder implements Builder {
 
     public void setLights(List<ILight> lights) {
         this.lights = lights;
-    }
-
-    public HashMap<String, Color> getColors() {
-        return this.colors;
-    }
-
-    public void setColors(HashMap<String, Color> colors) {
-        this.colors = colors;
     }
 
     public int getX() {
