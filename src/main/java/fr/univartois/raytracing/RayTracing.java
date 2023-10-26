@@ -74,17 +74,17 @@ public class RayTracing {
                 Color col;
                 if (min != scene.getX()*scene.getY()) {
                     col = calculMethod.colorCalcul(currentShape,d);
-                    image.setRGB(i,j,
-                            ((int)col.getTriplet().getX()*255)*65536+
-                                    ((int)col.getTriplet().getY()*255)*256+
-                                    ((int)col.getTriplet().getZ()*255)
-                    );
+                    float red = (float) (col.getTriplet().getX() * 255);
+                    float green = (float) (col.getTriplet().getY() * 255);
+                    float blue = (float) (col.getTriplet().getZ() * 255);
+
+                    int rgbValue = (int)((red * 65536) + (green * 256) + blue);
+
+                    image.setRGB(i,j,rgbValue);
+
                 }
                 else {
-                    col = scene.getColors().get("ambient");
-                    image.setRGB(i,j,((int)col.getTriplet().getX()*255)*65536+
-                            ((int)col.getTriplet().getY()*255)*256+
-                            ((int)col.getTriplet().getZ()*255));
+                    image.setRGB(i,j,0);
                 }
             }
         }
@@ -100,7 +100,7 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/tri.txt");
+        p.useParser("src/main/resources/generators/mickey.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
         Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY(),build.getShadowState());
