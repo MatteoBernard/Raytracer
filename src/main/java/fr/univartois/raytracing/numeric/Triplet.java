@@ -26,10 +26,10 @@ public class Triplet {
 
 
 
-    public Triplet addition (Triplet triplet){
+    public Triplet addition (Triplet add){
         //following maths formulas, the addition returns a new triplet as (x1+x2,y1+y2,z1+z2)
         return new Triplet(
-                this.x+triplet.getX(), this.y+triplet.getY(),this.z+triplet.getZ());
+                this.x+add.getX(), this.y+add.getY(),this.z+add.getZ());
 
     }
     public Triplet substraction (Triplet triplet){
@@ -72,5 +72,8 @@ public class Triplet {
         return (this.scalarMultiplication(1/this.length()));
     }
 
-
+    @Override
+    public String toString() {
+        return "X : "+this.getX()+";  Y : "+this.getY()+";  Z : "+this.getZ();
+    }
 }

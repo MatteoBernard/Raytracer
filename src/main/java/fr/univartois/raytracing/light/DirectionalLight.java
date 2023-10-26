@@ -53,4 +53,11 @@ public class DirectionalLight implements ILight {
         return this.color;
     }
 
+    @Override
+    public String toString() {
+        return "DirectionalLight{" +
+                "color=" + color +
+                ", vector=" + vector +
+                '}';
+    }
 }

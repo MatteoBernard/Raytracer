@@ -185,6 +185,10 @@ public final class Parser {
             if (good) {
                 colors.put("diffuse", c);
             } else {
+                System.out.println(colors.get("diffuse"));
+                System.out.println(Double.parseDouble(parts[1]));
+                System.out.println(Double.parseDouble(parts[2]));
+                System.out.println(Double.parseDouble(parts[3]));
                 throw new Exception("Incorrect entry (diffuse)");
             }
         } else {
@@ -233,7 +237,7 @@ public final class Parser {
             throw new Exception("Incorrect entry (light values)");
         else
 
-            if (parts[1].equals("directional"))
+            if (parts[0].equals("directional"))
                 this.sceneryBuilder.addLight(new DirectionalLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
                         new Vector(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
             else
