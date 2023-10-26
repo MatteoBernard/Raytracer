@@ -4,4 +4,7 @@ output sphere15.png
 
 ambient 1 0 0
 
+diffuse 0 0 0
+
+
 sphere 0 0 0 1
