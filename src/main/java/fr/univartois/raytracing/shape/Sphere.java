@@ -1,5 +1,6 @@
 package fr.univartois.raytracing.shape;
 
+import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
@@ -16,6 +17,8 @@ public class Sphere implements IShape {
 
     // radius of the sphere.
     private double radius;
+    private Color diffuse, specular;
+    private int shininess;
 
     /**
      * Constructor for the Sphere class.
@@ -23,9 +26,14 @@ public class Sphere implements IShape {
      * @param point  center point of the sphere.
      * @param radius radius of the sphere.
      */
-    public Sphere(Point point, double radius) {
+
+
+    public Sphere(Point point, double radius, Color diffuse, Color specular, int shininess) {
         this.point = point;
         this.radius = radius;
+        this.diffuse = diffuse;
+        this.specular = specular;
+        this.shininess = shininess;
     }
 
     /**
@@ -64,6 +72,20 @@ public class Sphere implements IShape {
     public void setRadius(double radius) {
         this.radius = radius;
     }
+    @Override
+    public Color getDiffuse() {
+        return diffuse;
+    }
+
+    @Override
+    public Color getSpecular() {
+        return specular;
+    }
+
+    @Override
+    public int getShininess() {
+        return shininess;
+    }
 
     public double intersect (Point o, Vector d) {
 
@@ -89,4 +111,6 @@ public class Sphere implements IShape {
         }
         return -1;
     }
+
+
 }
