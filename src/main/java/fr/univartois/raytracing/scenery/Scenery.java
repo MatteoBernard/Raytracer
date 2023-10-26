@@ -2,15 +2,13 @@ package fr.univartois.raytracing.scenery;
 
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
-import fr.univartois.raytracing.shadow.ShadowOFF;
 import fr.univartois.raytracing.shadow.ShadowState;
 import fr.univartois.raytracing.shape.IShape;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
- * The Scenery class represents the environment in a ray tracing system. It has a camera, a list of lights,
+ * The Scenery class represents the environment in the ray tracing system. It has a camera, a list of lights,
  * a list of shapes, and dimensions for rendering (x and y).
  */
 public class Scenery {
@@ -23,13 +21,15 @@ public class Scenery {
     private Color ambient;
 
     /**
-     * Constructs a new Scenery object with the given camera, lights, shapes, and rendering dimensions.
+     * Constructs a new Scenery object with the given camera, lights, shapes, rendering dimensions, shadow state, and ambient color.
      *
-     * @param camera camera used to capture the scene.
-     * @param lights list of light sources in the scene.
-     * @param shapes list of geometric shapes in the scene.
-     * @param x      horizontal rendering dimension.
-     * @param y      vertical rendering dimension.
+     * @param camera      The camera used to capture the scene.
+     * @param lights      The list of light sources in the scene.
+     * @param shapes      The list of geometric shapes in the scene.
+     * @param x           The horizontal rendering dimension.
+     * @param y           The vertical rendering dimension.
+     * @param shadowState The state of shadows in the scene (ShadowState).
+     * @param ambient     The ambient color in the scene (Color).
      */
     public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient) {
         this.camera = camera;
@@ -130,9 +130,21 @@ public class Scenery {
     public void setY(int y) {
         this.y = y;
     }
+
+    /**
+     * Get the state of shadows in the scene.
+     *
+     * @return The state of shadows (ShadowState) in the scene.
+     */
     public ShadowState getShadowState() {
         return shadowState;
     }
+
+    /**
+     * Get the ambient color in the scene.
+     *
+     * @return The ambient color (Color) in the scene.
+     */
     public Color getAmbient() {
         return ambient;
     }
