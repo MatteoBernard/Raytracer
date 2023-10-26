@@ -70,7 +70,7 @@ public final class Parser {
      * - colors: A hashmap of colors(Color objects).
      */
     public Parser() {
-        this.ambient = null;
+        this.ambient = new Color(new Triplet(0, 0, 0));
         this.diffuse = new Color(new Triplet(0, 0, 0));
         this.specular = new Color(new Triplet(0, 0, 0));
         this.shininess = 45;
