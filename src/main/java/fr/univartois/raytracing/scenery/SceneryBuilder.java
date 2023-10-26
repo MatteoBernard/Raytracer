@@ -21,6 +21,7 @@ public class SceneryBuilder implements Builder {
     private List<ILight> lights;
     private List<IShape> shapes;
     private ShadowState shadowState;
+    private Color ambient;
     private int x;
     private int y;
 
@@ -125,5 +126,8 @@ public class SceneryBuilder implements Builder {
 
     public ShadowState getShadowState() {
         return shadowState;
+    }
+    public void setAmbient(Color ambient) {
+        this.ambient = ambient;
     }
 }
