@@ -20,6 +20,7 @@ public class Scenery {
     private int x;
     private int y;
     private ShadowState shadowState;
+    private Color ambient;
 
     /**
      * Constructs a new Scenery object with the given camera, lights, shapes, and rendering dimensions.
@@ -30,13 +31,14 @@ public class Scenery {
      * @param x      horizontal rendering dimension.
      * @param y      vertical rendering dimension.
      */
-    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
         this.x = x;
         this.y = y;
         this.shadowState = shadowState;
+        this.ambient = ambient;
     }
 
     /**
@@ -130,5 +132,8 @@ public class Scenery {
     }
     public ShadowState getShadowState() {
         return shadowState;
+    }
+    public Color getAmbient() {
+        return ambient;
     }
 }

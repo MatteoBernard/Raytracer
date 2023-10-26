@@ -390,6 +390,7 @@ public final class Parser {
     public void useParser(String fileName) throws Exception {
         this.openFile(fileName);
         this.processFile();
+        this.sceneryBuilder.setAmbient(ambient);
         this.closeFile();
     }
 }
