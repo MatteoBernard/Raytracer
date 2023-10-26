@@ -1,5 +1,6 @@
 package fr.univartois.raytracing.shape;
 
+import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Vector;
 
@@ -13,15 +14,20 @@ public class Plane implements IShape{
     // normal vector of the plane.
     private Vector normal;
 
+    private Color diffuse, specular;
+    private int shininess;
     /**
      * Constructor for the Plane class.
      *
      * @param point   point on the plane.
      * @param normal  normal vector of the plane.
      */
-    public Plane(Point point, Vector normal) {
+    public Plane(Point point, Vector normal, Color diffuse, Color specular, int shininess) {
         this.point = point;
         this.normal = normal;
+        this.diffuse = diffuse;
+        this.specular = specular;
+        this.shininess = shininess;
     }
 
     /**
@@ -58,6 +64,21 @@ public class Plane implements IShape{
      */
     public void setNormal(Vector normal) {
         this.normal = normal;
+    }
+
+    @Override
+    public Color getDiffuse() {
+        return diffuse;
+    }
+
+    @Override
+    public Color getSpecular() {
+        return specular;
+    }
+
+    @Override
+    public int getShininess() {
+        return shininess;
     }
 
     /**
