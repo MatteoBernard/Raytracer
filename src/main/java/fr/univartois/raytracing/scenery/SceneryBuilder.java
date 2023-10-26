@@ -131,4 +131,8 @@ public class SceneryBuilder implements Builder {
     public void setShadowState(ShadowState shadowState) {
         this.shadowState = shadowState;
     }
+
+    public ShadowState getShadowState() {
+        return shadowState;
+    }
 }

@@ -135,4 +135,8 @@ public class Scenery {
     public HashMap<String, Color> getColors() {
         return  this.colors;
     }
+
+    public ShadowState getShadowState() {
+        return shadowState;
+    }
 }
