@@ -1,6 +1,7 @@
 package fr.univartois.raytracing.shape;
 
 import fr.univartois.raytracing.numeric.Point;
+import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 
 /**
@@ -106,6 +107,14 @@ public class Tri implements IShape {
         }
         Plane plane2 = new Plane(P,n);
         return plane2.intersect(p,d);
+    }
+
+    public Point getCenter() {
+        return new Point(new Triplet(
+                (pointA.getTriplet().getX() + pointB.getTriplet().getX() + pointC.getTriplet().getX()) / 3,
+                (pointA.getTriplet().getY() + pointB.getTriplet().getY() + pointC.getTriplet().getY()) / 3,
+                (pointA.getTriplet().getZ() + pointB.getTriplet().getZ() + pointC.getTriplet().getZ()) / 3
+        ));
     }
 }
 

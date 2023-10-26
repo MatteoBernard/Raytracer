@@ -33,7 +33,8 @@ public class Sphere implements IShape {
      *
      * @return center point of the sphere.
      */
-    public Point getPoint() {
+    @Override
+    public Point getCenter() {
         return point;
     }
 

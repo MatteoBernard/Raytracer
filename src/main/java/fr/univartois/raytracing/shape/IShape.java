@@ -8,4 +8,6 @@ import fr.univartois.raytracing.numeric.Vector;
 
 public interface IShape {
     public double intersect (Point p, Vector d);
+
+    public Point getCenter();
 }
