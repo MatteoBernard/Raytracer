@@ -15,7 +15,7 @@ import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.parser.Parser;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.scenery.SceneryBuilder;
-import fr.univartois.raytracing.shadow.BlinnPhong;
+import fr.univartois.raytracing.Colors.BlinnPhong;
 import fr.univartois.raytracing.shape.IShape;
 
 import javax.imageio.ImageIO;
@@ -106,7 +106,7 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/mickey.txt");
+        p.useParser("src/main/resources/generators/1st3dtest.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
         Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient());
