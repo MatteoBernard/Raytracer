@@ -47,7 +47,6 @@ public final class Parser {
     private int shininess;
     private int maxverts;
     private String output;
-    private boolean activeShadow;
     private SceneryBuilder sceneryBuilder;
 
     // Constructor
@@ -64,7 +63,6 @@ public final class Parser {
         this.shininess = -1;
         this.output = "output.png";
         this.colors = new HashMap<String, Color>();
-        this.activeShadow = false;
     }
 
     // Getters
@@ -83,14 +81,6 @@ public final class Parser {
      */
     public String getOutput() {
         return output;
-    }
-
-    /**
-     * Get the value of the activeShadow boolean.
-     * @return A boolean representing if shadows have to be enabled.
-     */
-    public boolean getActiveShadow() {
-        return activeShadow;
     }
 
     /**
@@ -227,9 +217,9 @@ public final class Parser {
      */
     private final void addLight(String[] parts) throws Exception {
 
-        double r = Double.parseDouble(parts[1]);
-        double g = Double.parseDouble(parts[2]);
-        double b = Double.parseDouble(parts[3]);
+        double r = Double.parseDouble(parts[4]);
+        double g = Double.parseDouble(parts[5]);
+        double b = Double.parseDouble(parts[6]);
 
         for (int i = 0 ; i < this.sceneryBuilder.getLights().size() ; i++) {
             r += this.sceneryBuilder.getLights().get(i).getColor().getTriplet().getX();
@@ -241,7 +231,7 @@ public final class Parser {
             throw new Exception("Incorrect entry (light values)");
         else
 
-            if (parts[1].equals("directional"))
+            if (parts[0].equals("directional"))
                 this.sceneryBuilder.addLight(new DirectionalLight(new Color(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6]))),
                         new Vector(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])))));
             else
@@ -281,7 +271,7 @@ public final class Parser {
     }
 
     /**
-     * Sets the value of the activeShadow attribute based on the input 'parts' array.
+     * Sets the value of the sceneryBuilder.stateShadow attribute based on the input 'parts' array.
      *
      * @param parts An array of string parts containing shadow property.
      *
@@ -289,9 +279,9 @@ public final class Parser {
      */
     private final void setActiveShadow(String[] parts) throws Exception {
         if (parts[1].equals("true"))
-            this.activeShadow = true;
+            this.sceneryBuilder.setShadowState(ShadowON.getInstance());
         else if (parts[1].equals("false"))
-            this.activeShadow = false;
+            this.sceneryBuilder.setShadowState(ShadowOFF.getInstance());
         else
             throw new Exception("Incorrect entry (shadow)");
     }
@@ -409,6 +399,8 @@ public final class Parser {
         this.openFile(fileName);
         this.processFile();
         this.sceneryBuilder.setColors(this.colors);
+        if (!(this.colors.containsKey("ambient")))
+            colors.put("ambient", new Color(new Triplet(1, 1, 1)));
         this.closeFile();
     }
 }
