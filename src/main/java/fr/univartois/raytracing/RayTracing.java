@@ -15,6 +15,7 @@ import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.parser.Parser;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.scenery.SceneryBuilder;
+import fr.univartois.raytracing.shadow.BlinnPhong;
 import fr.univartois.raytracing.shape.IShape;
 
 import javax.imageio.ImageIO;
@@ -28,8 +29,8 @@ public class RayTracing {
 
     public void launch (Scenery scene,String output) {
         ICalcul calculMethod;
-        calculMethod = new Lambert(new Normal(scene));
-        Vector d = null;
+        calculMethod = new BlinnPhong(new Lambert(new Normal(scene)));
+        Vector d = null; 
 
         BufferedImage image = new BufferedImage(scene.getX(),scene.getY(),BufferedImage.TYPE_INT_RGB);
         Point lookFrom = scene.getCamera().getLookFrom();
@@ -108,7 +109,7 @@ public class RayTracing {
         p.useParser("src/main/resources/generators/mickey.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
-        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY(),build.getShadowState());
+        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient());
 
         RayTracing rt = new RayTracing();
         rt.launch(scene,p.getOutput());

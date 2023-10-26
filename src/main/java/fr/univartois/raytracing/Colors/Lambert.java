@@ -27,19 +27,19 @@ public class Lambert implements ICalcul {
         return scene;
     }
 
-    public Color lambertCalcul(Sphere sphere,Vector d) {
+    public Color lambertCalcul(IShape shape,Vector d) {
         DirectionalLight dlight;
         Vector n;
         Color ld;
         Color somme = new Color(new Triplet(0,0,0));
         Color col;
 
-        Color La=scene.getColors().get("ambient");
+        Color La=scene.getAmbient();
 
 
         Point o = scene.getCamera().getLookFrom();
-        Point p = d.scalarMultiplication(sphere.intersect(o,d)).addition(o);
-        n = p.substraction(sphere.getCenter());
+        Point p = d.scalarMultiplication(shape.intersect(o,d)).addition(o);
+        n = p.substraction(shape.getCenter());
         n=n.norm();
 
         double a;
@@ -54,7 +54,7 @@ public class Lambert implements ICalcul {
                 somme.addition(ld.schurProduct(element.getColor()));
             }
         }
-        col=(scene.getColors().get("diffuse").schurProduct(somme).addition(La));
+        col=(shape.getDiffuse().schurProduct(somme).addition(La));
         return col;
     }
     @Override

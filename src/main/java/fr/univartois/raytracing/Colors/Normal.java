@@ -15,7 +15,7 @@ public class Normal implements ICalcul {
 
     public Normal(Scenery scene) {
         this.scene=scene;
-        this.amb = scene.getColors().get("ambient");
+        this.amb = scene.getAmbient();
     }
 
     @Override

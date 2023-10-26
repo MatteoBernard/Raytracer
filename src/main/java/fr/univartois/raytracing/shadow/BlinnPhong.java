@@ -35,7 +35,7 @@ public class BlinnPhong implements ICalcul {
 
     public Color calculBlinnPhong(IShape shape, Vector d) {
 
-        Color sum = this.scene.getColors().get("ambient");
+        Color sum = this.scene.getAmbient();
 
         for (ILight light : this.scene.getLights()) {
             if (light.getVector() != null) {
@@ -49,8 +49,8 @@ public class BlinnPhong implements ICalcul {
                     p = (d.scalarMultiplication(t).addition(this.scene.getCamera().getLookFrom()));
                 Vector n = (p.substraction(shape.getCenter())).norm();
 
-                sum.addition(light.getColor().scalarMultiplication(Math.max(n.scalarProduct(lightdir), 0)).schurProduct(this.scene.getColors().get("diffuse")).addition(
-                        light.getColor().scalarMultiplication(Math.max(n.scalarProduct(h), 0)).schurProduct(this.scene.getColors().get("specular"))
+                sum.addition(light.getColor().scalarMultiplication(Math.max(n.scalarProduct(lightdir), 0)).schurProduct(shape.getDiffuse()).addition(
+                        light.getColor().scalarMultiplication(Math.max(n.scalarProduct(h), 0)).schurProduct(shape.getSpecular())
                 ));
             }
         }
