@@ -1,6 +1,9 @@
 package fr.univartois.raytracing;
 
 
+import fr.univartois.raytracing.Colors.ICalcul;
+import fr.univartois.raytracing.Colors.Lambert;
+import fr.univartois.raytracing.Colors.Normal;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
@@ -18,11 +21,16 @@ import java.io.IOException;
 public class RayTracing {
 
     public void launch (Scenery scene,String output) {
+        ICalcul calculMethod;
+        calculMethod = new Lambert(new Normal(scene));
+        Vector d = null;
+
         BufferedImage image = new BufferedImage(scene.getX(),scene.getY(),BufferedImage.TYPE_INT_RGB);
         Point lookFrom = scene.getCamera().getLookFrom();
+        IShape currentShape = null;
 
         double min,t,fovr,realHeight,realWidth,pixelHeight,pixelWidth,a,b;
-        Vector w,up,u,v,d;
+        Vector w,up,u,v;
 
         w = (scene.getCamera().getLookFrom()).substraction(scene.getCamera().getLookAt());
         w = w.norm();
@@ -33,7 +41,6 @@ public class RayTracing {
 
         v = w.vectorProduct(u);
         v = v.norm();
-
 
         fovr = (scene.getCamera().getFov()*Math.PI)/180;
         realHeight = 2* Math.tan(fovr/2);
@@ -60,11 +67,13 @@ public class RayTracing {
                     t = shape.intersect(lookFrom,d);
                     if (t < min && t != -1) {
                         min = t;
+                        currentShape=shape;
                     }
                 }
 
                 Color col;
                 if (min != scene.getX()*scene.getY()) {
+                    calculMethod.colorCalcul(currentShape,d);
                     col = scene.getColors().get("ambient");
                     image.setRGB(i,j,
                             ((int)col.getTriplet().getX()*255)*65536+
@@ -89,7 +98,7 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/carre.txt");
+        p.useParser("src/main/resources/generators/tri.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
         Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getColors(),build.getX(),build.getY());

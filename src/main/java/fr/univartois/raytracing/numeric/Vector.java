@@ -36,8 +36,6 @@ public class Vector {
         return new Vector(triplet.vectorProduct(product.getTriplet()));
     }
 
-
-
     public double length() {
         return triplet.length();
     }

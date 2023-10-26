@@ -2,22 +2,39 @@ package fr.univartois.raytracing.numeric;
 
 public class Point {
 
-    protected final Triplet triplet;
+    protected final Triplet triplet; //we use an instance of Triplet also in final
 
-
-    public Point(Triplet point) {
+    /**
+     *
+     * @param point
+     */
+    public Point(Triplet point) { //constructor
         this.triplet=point;
     }
 
-    public Triplet getTriplet() {
+    /**
+     *
+     * @return
+     */
+    public Triplet getTriplet() {//getter
         return this.triplet;
     }
 
-    public Vector substraction(Point substract){
+    /**
+     *
+     * @param substract
+     * @return
+     */
+    public Vector substraction(Point substract){//we use the substraction from Triplet with an instance of Point
         return new Vector(triplet.substraction(substract.getTriplet()));
     }
 
-    public Point scalarMultiplication(double d){
+    /**
+     *
+     * @param d
+     * @return
+     */
+    public Point scalarMultiplication(double d){ // we use the scalar Multiplication from Triplet but it returns a Point
         return new Point(triplet.scalarMultiplication(d));
     }
 
