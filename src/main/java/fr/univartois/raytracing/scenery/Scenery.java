@@ -17,7 +17,6 @@ public class Scenery {
     private Camera camera;
     private List<ILight> lights;
     private List<IShape> shapes;
-    private HashMap<String,Color> colors;
     private int x;
     private int y;
     private ShadowState shadowState;
@@ -28,15 +27,13 @@ public class Scenery {
      * @param camera camera used to capture the scene.
      * @param lights list of light sources in the scene.
      * @param shapes list of geometric shapes in the scene.
-     * @param colors HashMap with all colors needed in the scene.
      * @param x      horizontal rendering dimension.
      * @param y      vertical rendering dimension.
      */
-    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, HashMap<String, Color> colors, int x, int y, ShadowState shadowState) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
-        this.colors = colors;
         this.x = x;
         this.y = y;
         this.shadowState = shadowState;
@@ -131,11 +128,6 @@ public class Scenery {
     public void setY(int y) {
         this.y = y;
     }
-
-    public HashMap<String, Color> getColors() {
-        return  this.colors;
-    }
-
     public ShadowState getShadowState() {
         return shadowState;
     }
