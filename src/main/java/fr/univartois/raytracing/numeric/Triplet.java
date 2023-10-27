@@ -169,7 +169,7 @@ public class Triplet {
     /**
      * Returns a String of the values in the Triplet
      *
-     * @return A Triplet representing the norm of this Triplet.
+     * @return A String representing the string values of this Triplet.
      */
     @Override
     public String toString() {
