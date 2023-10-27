@@ -27,14 +27,14 @@ public class Lambert implements ICalcul {
         return scene;
     }
 
-    public Color lambertCalcul(DirectionalLight dlight,IShape shape,Vector d) {
+    public Color lambertCalcul(DirectionalLight dlight,IShape shape,Vector d, double t) {
         Vector n;
         Color ld;
 
 
 
         Point o = scene.getCamera().getLookFrom();
-        Point p = d.scalarMultiplication(shape.intersect(o,d)).addition(o);
+        Point p = d.scalarMultiplication(t).addition(o);
         n = p.substraction(shape.getCenter());
         n=n.norm();
 
@@ -49,13 +49,13 @@ public class Lambert implements ICalcul {
         return ld.schurProduct(dlight.getColor());
     }
     @Override
-    public Color colorCalcul(IShape shape, Vector d) {
+    public Color colorCalcul(IShape shape, Vector d, double t) {
         Color sum = new Color(new Triplet(0,0,0));
         for (ILight light : scene.getLights()) {
             if (light instanceof DirectionalLight) sum.addition(
-                    lambertCalcul((DirectionalLight) light,shape,d)
+                    lambertCalcul((DirectionalLight) light,shape,d,t)
             );
         }
-        return this.calcul.colorCalcul(shape,d).addition(sum).schurProduct(shape.getDiffuse());
+        return this.calcul.colorCalcul(shape,d,t).addition(sum).schurProduct(shape.getDiffuse());
     }
 }
