@@ -26,8 +26,6 @@ public class Sphere implements IShape {
      * @param point  center point of the sphere.
      * @param radius radius of the sphere.
      */
-
-
     public Sphere(Point point, double radius, Color diffuse, Color specular, int shininess) {
         this.point = point;
         this.radius = radius;
@@ -72,21 +70,43 @@ public class Sphere implements IShape {
     public void setRadius(double radius) {
         this.radius = radius;
     }
+    /**
+     * Get the diffuse color of the sphere's surface.
+     *
+     * @return The diffuse color.
+     */
     @Override
     public Color getDiffuse() {
         return diffuse;
     }
 
+    /**
+     * Get the specular color of the sphere's surface.
+     *
+     * @return The specular color.
+     */
     @Override
     public Color getSpecular() {
         return specular;
     }
 
+    /**
+     * Get the shininess value affecting specular highlights on the sphere's surface.
+     *
+     * @return The shininess value.
+     */
     @Override
     public int getShininess() {
         return shininess;
     }
 
+    /**
+     * Computes the intersection of a ray with this sphere.
+     *
+     * @param o The starting point of the ray.
+     * @param d The direction of the ray.
+     * @return The parameter 't' at which the ray intersects the sphere, or -1 if there is no intersection.
+     */
     public double intersect (Point o, Vector d) {
 
         double a = 1;

@@ -30,9 +30,6 @@ public class Lambert implements ICalcul {
     public Color lambertCalcul(DirectionalLight dlight,IShape shape,Vector d, double t) {
         Vector n;
         Color ld;
-
-
-
         Point o = scene.getCamera().getLookFrom();
         Point p = d.scalarMultiplication(t).addition(o);
         n = p.substraction(shape.getCenter());
@@ -46,7 +43,7 @@ public class Lambert implements ICalcul {
 
         ld=dlight.getColor().scalarMultiplication(a);
 
-        return ld.schurProduct(dlight.getColor());
+        return ld;
     }
     @Override
     public Color colorCalcul(IShape shape, Vector d, double t) {
@@ -56,6 +53,6 @@ public class Lambert implements ICalcul {
                     lambertCalcul((DirectionalLight) light,shape,d,t)
             );
         }
-        return this.calcul.colorCalcul(shape,d,t).addition(sum).schurProduct(shape.getDiffuse());
+        return this.calcul.colorCalcul(shape,d).addition(sum.schurProduct(shape.getDiffuse()));
     }
 }

@@ -13,6 +13,7 @@ import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.parser.Parser;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.scenery.SceneryBuilder;
+import fr.univartois.raytracing.Colors.BlinnPhong;
 import fr.univartois.raytracing.shape.IShape;
 import fr.univartois.raytracing.shape.Plane;
 
@@ -61,7 +62,16 @@ public class RayTracing {
                     pixelHeight = realHeight/scene.getY();
                     realWidth = scene.getX() * pixelHeight;
                     pixelWidth = realWidth/scene.getX();
-                    ICrenelage crenelage = new Grid(6);
+
+                    ICrenelage crenelage;
+
+                    if (scene.getState()[0] == 0)
+                        crenelage = new Middle();
+                    else if (scene.getState()[0] == 1)
+                        crenelage = new random(scene.getState()[1]);
+                    else
+                        crenelage = new Grid(scene.getState()[1]);
+
                     D = crenelage.caclulVector(realWidth,pixelWidth,realHeight,pixelHeight,i,j,u,v,w);
                     size = D.size();
                     try {
