@@ -17,10 +17,10 @@
   
 
 ## Membres
--Antoine Crauser
--Axel Poteau
--Jean-Alexis Delcambre
--Mattéo Bernard
+-Antoine Crauser<br>
+-Axel Poteau<br>
+-Jean-Alexis Delcambre<br>
+-Mattéo Bernard<br>
   
 
 ## Diagramme UML
@@ -48,19 +48,19 @@ Pour répartir les tâches, après avoir lu le sujet au complet, nous avons pris
 | Ajout des lumières <br>et des couleurs  | Anti-crénelage | Texture procédurale :<br>le damier | Des ombres et <br>des réflexions |
 
 #### En dehors des taches de programmations, ils y'a eu aussi d'autres taches qui ont été prises par les membres :
-- Antoine :
+- Antoine :<br>
 	-Créer les jalons et une partie des tickets <br>
 	-S'occuper de la gestion d'équipe et des tâches <br>
 	-Partie réunion, mise au point (Organiser les daily, meetings, suivre les avancées, communiquer)<br>
 	-En majeure partie de rapport de groupe<br>
-- Axel:
+- Axel:<br>
 	-Gérer une grande partie des branches et des merges requests<br>
 	-Débogage <br>
-- Jean-Alexis:
+- Jean-Alexis:<br>
 	-Quelques tickets<br>
 	-Majorité du débogage<br>
 	-A apporté son aide à plusieurs reprises aux autres membres en difficulté <br>
-- Mattéo:
+- Mattéo:<br>
 	-Aide pour le rapport<br>
 	-à ajouter<br>
 
