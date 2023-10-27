@@ -65,6 +65,6 @@ Pour répartir les tâches, après avoir lu le sujet au complet, nous avons pris
 	-à ajouter<br>
 
 ## Conclusion 
-En conclusion de cette semaine de projet, nous avons tous pu en tirer une expérience bénéfique autant en programmation qu'en travail d'équipe. Malgré de nombreuses difficultés rencontrées et pas toujours surmontées, nous n'avons pas abandonnés et avons continué jusqu'au bout en restant soudés.
+En conclusion de cette semaine de projet, nous avons tous pu en tirer une expérience bénéfique autant en programmation qu'en travail d'équipe. Malgré de nombreuses difficultés rencontrées et pas toujours surmontées, nous n'avons pas abandonné et avons continué jusqu'au bout en restant soudés.
 
 	
