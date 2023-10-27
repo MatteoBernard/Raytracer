@@ -1,4 +1,3 @@
-
 # SAE S3.A.01 - Lanceur de rayon
 
   
@@ -50,20 +49,20 @@ Pour répartir les tâches, après avoir lu le sujet au complet, nous avons pris
 
 #### En dehors des taches de programmations, ils y'a eu aussi d'autres taches qui ont été prises par les membres :
 - Antoine :
-	-Créer les jalons et une partie des tickets 
-	-S'occuper de la gestion d'équipe et des tâches 
-	-Partie réunion, mise au point (Organiser les daily, meetings, suivre les avancées, communiquer)
-	-En majeure partie de rapport de groupe
+	-Créer les jalons et une partie des tickets <br>
+	-S'occuper de la gestion d'équipe et des tâches <br>
+	-Partie réunion, mise au point (Organiser les daily, meetings, suivre les avancées, communiquer)<br>
+	-En majeure partie de rapport de groupe<br>
 - Axel:
-	-Gérer une grande partie des branches et des merges requests
-	-Débogage 
+	-Gérer une grande partie des branches et des merges requests<br>
+	-Débogage <br>
 - Jean-Alexis:
-	-Quelques tickets
-	-Majorité du débogage
-	-A apporté son aide à plusieurs reprises aux autres membres en difficulté 
+	-Quelques tickets<br>
+	-Majorité du débogage<br>
+	-A apporté son aide à plusieurs reprises aux autres membres en difficulté <br>
 - Mattéo:
-	-Aide pour le rapport
-	-à ajouter
+	-Aide pour le rapport<br>
+	-à ajouter<br>
 
 ## Conclusion 
 En conclusion de cette semaine de projet, nous avons tous pu en tirer une expérience bénéfique autant en programmation qu'en travail d'équipe. Malgré de nombreuses difficultés rencontrées et pas toujours surmontées, nous n'avons pas abandonnés et avons continué jusqu'au bout en restant soudés.
