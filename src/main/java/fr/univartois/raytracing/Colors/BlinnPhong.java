@@ -1,6 +1,6 @@
-package fr.univartois.raytracing.Colors;
+package fr.univartois.raytracing.colors;
 
-import fr.univartois.raytracing.Colors.ICalcul;
+import fr.univartois.raytracing.colors.ICalcul;
 import fr.univartois.raytracing.light.DirectionalLight;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.numeric.Color;
