@@ -53,6 +53,11 @@ public class DirectionalLight implements ILight {
         return this.color;
     }
 
+    /**
+     * Returns a string representation of this DirectionalLight object.
+     *
+     * @return A string containing the class name, color, and vector of the DirectionalLight.
+     */
     @Override
     public String toString() {
         return "DirectionalLight{" +

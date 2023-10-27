@@ -55,6 +55,11 @@ public class PonctualLight implements ILight{
         return this.color;
     }
 
+    /**
+     * Returns a string representation of this PonctualLight object.
+     *
+     * @return A string containing the class name, color, and vector of the PonctualLight.
+     */
     @Override
     public String toString() {
         return "PonctualLight{" +
