@@ -24,6 +24,11 @@ public class SceneryBuilder implements Builder {
     private int y;
     private ICrenelage crenelage;
 
+    private int[] state;
+
+    public int[] getState() {return state;}
+    public void setState(int[] state) {this.state=state;}
+
     /**
      * Constructs a new SceneryBuilder with the specified horizontal and vertical rendering dimensions (x and y).
      *

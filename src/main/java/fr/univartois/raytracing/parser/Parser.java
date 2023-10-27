@@ -396,10 +396,15 @@ public final class Parser {
                 this.setActiveShadow(parts);
                 break;
             case "sampling" :
-                if (parts[1].equals("random"))
+                if (parts[1].equals("random")) {
                     this.crenelage = new random(Integer.parseInt(parts[2]));
-                else if (parts[1].equals("grid"))
+                    this.sceneryBuilder.setState(new int[]{1, Integer.parseInt(parts[2])});
+                }
+
+                else if (parts[1].equals("grid")) {
                     this.crenelage = new Grid(Integer.parseInt(parts[2]));
+                    this.sceneryBuilder.setState(new int[]{2, Integer.parseInt(parts[2])});
+                }
                 break;
             default:
                 throw new ParserException("Incorrect entry");
@@ -414,13 +419,14 @@ public final class Parser {
      * @throws FileNotFoundException If there is an issue with the input file, parsing errors, or file handling errors.
      */
     public void useParser(String fileName) throws FileNotFoundException {
-        if (this.crenelage == null) {
-            this.crenelage = new Middle();
-        }
         this.openFile(fileName);
         this.processFile();
         this.sceneryBuilder.setAmbient(ambient);
         this.sceneryBuilder.setCrenelage(crenelage);
+        if (this.crenelage == null) {
+            this.crenelage = new Middle();
+            this.sceneryBuilder.setState(new int[]{0, 0});
+        }
         this.closeFile();
     }
 }
