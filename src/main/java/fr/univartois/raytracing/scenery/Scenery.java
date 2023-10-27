@@ -1,5 +1,6 @@
 package fr.univartois.raytracing.scenery;
 
+import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.shadow.ShadowState;
@@ -19,6 +20,10 @@ public class Scenery {
     private int y;
     private ShadowState shadowState;
     private Color ambient;
+    private ICrenelage crenelage;
+    private int[] state;
+
+    public int[] getState() {return state;}
 
     /**
      * Constructs a new Scenery object with the given camera, lights, shapes, rendering dimensions, shadow state, and ambient color.
@@ -31,7 +36,7 @@ public class Scenery {
      * @param shadowState The state of shadows in the scene (ShadowState).
      * @param ambient     The ambient color in the scene (Color).
      */
-    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient, ICrenelage crenelage, int[] state) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
@@ -39,6 +44,8 @@ public class Scenery {
         this.y = y;
         this.shadowState = shadowState;
         this.ambient = ambient;
+        this.crenelage = crenelage;
+        this.state = state;
     }
 
     /**
@@ -147,5 +154,9 @@ public class Scenery {
      */
     public Color getAmbient() {
         return ambient;
+    }
+
+    public ICrenelage getCrenelage() {
+        return this.crenelage;
     }
 }
