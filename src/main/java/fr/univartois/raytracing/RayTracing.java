@@ -28,9 +28,6 @@ import java.util.List;
 public class RayTracing {
 
     public void launch (Scenery scene,String output) {
-
-        System.out.println(scene.getCrenelage());
-
         ICalcul calculMethod;
         calculMethod = new BlinnPhong(new Lambert(new Normal(scene)));
         Vector d = null; 

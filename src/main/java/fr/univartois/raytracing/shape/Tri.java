@@ -86,17 +86,29 @@ public class Tri implements IShape {
     public void setPointC(Point pointC) {
         this.pointC = pointC;
     }
-
+    /**
+     * Get the diffuse color of the triangle's surface.
+     *
+     * @return The diffuse color.
+     */
     @Override
     public Color getDiffuse() {
         return diffuse;
     }
-
+    /**
+     * Get the specular color of the triangle's surface.
+     *
+     * @return The specular color.
+     */
     @Override
     public Color getSpecular() {
         return specular;
     }
-
+    /**
+     * Get the shininess value affecting specular highlights on the triangle's surface.
+     *
+     * @return The shininess value.
+     */
     @Override
     public int getShininess() {
         return shininess;
@@ -130,6 +142,11 @@ public class Tri implements IShape {
         return plane2.intersect(p,d);
     }
 
+    /**
+     * Get the center point of the triangle.
+     *
+     * @return The center point of the triangle.
+     */
     public Point getCenter() {
         return new Point(new Triplet(
                 (pointA.getTriplet().getX() + pointB.getTriplet().getX() + pointC.getTriplet().getX()) / 3,
