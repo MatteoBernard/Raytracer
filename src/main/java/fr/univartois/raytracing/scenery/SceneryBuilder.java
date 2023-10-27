@@ -1,6 +1,8 @@
 package fr.univartois.raytracing.scenery;
 
+
 import fr.univartois.raytracing.Colors.Checker;
+import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.shadow.ShadowOFF;
@@ -23,6 +25,12 @@ public class SceneryBuilder implements Builder {
     private int x;
     private int y;
     private Checker checker;
+    private ICrenelage crenelage;
+
+    private int[] state;
+
+    public int[] getState() {return state;}
+    public void setState(int[] state) {this.state=state;}
 
     /**
      * Constructs a new SceneryBuilder with the specified horizontal and vertical rendering dimensions (x and y).
@@ -184,6 +192,23 @@ public class SceneryBuilder implements Builder {
 
     public Checker getChecker() {
         return checker;
+    /**
+     * Sets the sampling method of the scenery.
+     *
+     * @param crenelage The sampling method for the scenery
+     */
+    public void setCrenelage(ICrenelage crenelage) {
+        this.crenelage = crenelage;
+    }
+
+    /**
+     * Retrieves the sampling method of the scenery.
+     *
+     * @return The sampling method in the scene .
+     */
+
+    public ICrenelage getCrenelage() {
+        return this.crenelage;
     }
 }
 

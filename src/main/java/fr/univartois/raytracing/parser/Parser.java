@@ -1,6 +1,10 @@
 package fr.univartois.raytracing.parser;
 
 import fr.univartois.raytracing.Colors.Checker;
+import fr.univartois.raytracing.antiCrenelage.Grid;
+import fr.univartois.raytracing.antiCrenelage.ICrenelage;
+import fr.univartois.raytracing.antiCrenelage.Middle;
+import fr.univartois.raytracing.antiCrenelage.random;
 import fr.univartois.raytracing.light.DirectionalLight;
 import fr.univartois.raytracing.light.PonctualLight;
 import fr.univartois.raytracing.numeric.Color;
@@ -45,6 +49,7 @@ public final class Parser {
         expectedParams.put("directional", 6);
         expectedParams.put("point", 6);
         expectedParams.put("maxverts", 1);
+        expectedParams.put("sampling", 2);
         expectedParams.put("checker", 7);
         expectedParams.put("maxdepth", 1);
     }
@@ -61,6 +66,8 @@ public final class Parser {
     private int maxverts;
     private String output;
     private SceneryBuilder sceneryBuilder;
+    private ICrenelage crenelage;
+    private boolean changeAmbient;
 
     // Constructor
 
@@ -74,6 +81,7 @@ public final class Parser {
      */
     public Parser() {
         this.ambient = new Color(new Triplet(0, 0, 0));
+        this.changeAmbient = false;
         this.diffuse = new Color(new Triplet(0, 0, 0));
         this.specular = new Color(new Triplet(0, 0, 0));
         this.shininess = 45;
@@ -167,8 +175,9 @@ public final class Parser {
      * @throws ParserException If the entry is incorrect (e.g., color values exceeding 1).
      */
     private final void addAmbient(String[] parts) throws ParserException {
-        if (ambient == null) {
+        if (!changeAmbient) {
             this.ambient = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+            changeAmbient = true;
         }
         else throw new ParserException("Incorrect entry (ambient already defined)");
     }
@@ -398,7 +407,18 @@ public final class Parser {
             case "checker" :
                 this.addChecker(parts);
                 break;
-            case "maxdepth":
+            case "maxdepth": 
+                break;
+            case "sampling" :
+                if (parts[1].equals("random")) {
+                    this.crenelage = new random(Integer.parseInt(parts[2]));
+                    this.sceneryBuilder.setState(new int[]{1, Integer.parseInt(parts[2])});
+                }
+
+                else if (parts[1].equals("grid")) {
+                    this.crenelage = new Grid(Integer.parseInt(parts[2]));
+                    this.sceneryBuilder.setState(new int[]{2, Integer.parseInt(parts[2])});
+                }
                 break;
             default:
                 throw new ParserException("Incorrect entry");
@@ -416,6 +436,11 @@ public final class Parser {
         this.openFile(fileName);
         this.processFile();
         this.sceneryBuilder.setAmbient(ambient);
+        this.sceneryBuilder.setCrenelage(crenelage);
+        if (this.crenelage == null) {
+            this.crenelage = new Middle();
+            this.sceneryBuilder.setState(new int[]{0, 0});
+        }
         this.closeFile();
     }
 }
