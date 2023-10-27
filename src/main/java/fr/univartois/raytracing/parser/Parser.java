@@ -141,17 +141,18 @@ public final class Parser {
         return line.charAt(0) != '#';
     }
 
-    /**
-     * Adds a camera object based on the input 'parts' array.
-     *
-     * @param parts An array of string parts containing camera properties.
-     */
+
     private final void addChecker(String[] parts) {
         Color col1 = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
         Color col2 = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
         this.sceneryBuilder.setChecker(new Checker(null,col1,col2));
     }
 
+    /**
+     * Adds a camera object based on the input 'parts' array.
+     *
+     * @param parts An array of string parts containing camera properties.
+     */
     private final void addCamera(String[] parts) {
         Point lookFrom = new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
         Point lookAt = new Point(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])));
