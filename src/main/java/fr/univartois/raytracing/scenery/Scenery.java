@@ -155,8 +155,4 @@ public class Scenery {
     public Color getAmbient() {
         return ambient;
     }
-
-    public ICrenelage getCrenelage() {
-        return this.crenelage;
-    }
 }

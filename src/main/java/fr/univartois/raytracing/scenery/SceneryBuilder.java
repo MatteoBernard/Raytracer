@@ -187,9 +187,20 @@ public class SceneryBuilder implements Builder {
         return ambient;
     }
 
+    /**
+     * Sets the sampling method of the scenery.
+     *
+     * @param crenelage The sampling method for the scenery
+     */
     public void setCrenelage(ICrenelage crenelage) {
         this.crenelage = crenelage;
     }
+
+    /**
+     * Retrieves the sampling method of the scenery.
+     *
+     * @return The sampling method in the scene .
+     */
 
     public ICrenelage getCrenelage() {
         return this.crenelage;
