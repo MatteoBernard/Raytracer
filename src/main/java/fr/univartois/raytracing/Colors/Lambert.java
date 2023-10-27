@@ -11,15 +11,15 @@ import fr.univartois.raytracing.shape.IShape;
 import fr.univartois.raytracing.shape.Sphere;
 
 public class Lambert implements ICalcul {
-    private ICalcul calcul;
+    private Normal calcul;
     private Scenery scene;
 
-    public Lambert(ICalcul calcul) {
+    public Lambert(Normal calcul) {
         this.calcul = calcul;
         this.scene = calcul.getScene();
     }
 
-    public ICalcul getCalcul() {
+    public Normal getCalcul() {
         return calcul;
     }
 
@@ -27,14 +27,10 @@ public class Lambert implements ICalcul {
         return scene;
     }
 
-    public Color lambertCalcul(IShape shape,Vector d) {
-        DirectionalLight dlight;
+    public Color lambertCalcul(DirectionalLight dlight,IShape shape,Vector d) {
         Vector n;
         Color ld;
-        Color somme = new Color(new Triplet(0,0,0));
-        Color col;
 
-        Color La=scene.getAmbient();
 
 
         Point o = scene.getCamera().getLookFrom();
@@ -43,24 +39,23 @@ public class Lambert implements ICalcul {
         n=n.norm();
 
         double a;
-        for(ILight element : scene.getLights()){
-            if (element instanceof DirectionalLight){
-                a = n.scalarProduct(element.getVector());
-                if (a < 0)
-                        a=0;
 
-                ld=element.getColor().scalarMultiplication(a);
+        a = n.scalarProduct(dlight.getVector().norm());
+        if (a < 0)
+            a=0;
 
-                somme.addition(ld.schurProduct(element.getColor()));
-            }
-        }
-        col=(shape.getDiffuse().schurProduct(somme).addition(La));
-        return col;
+        ld=dlight.getColor().scalarMultiplication(a);
+
+        return ld.schurProduct(dlight.getColor());
     }
     @Override
     public Color colorCalcul(IShape shape, Vector d) {
-        if (! (shape instanceof Sphere))
-            return calcul.colorCalcul(shape,d);
-        return lambertCalcul((Sphere) shape,d);
+        Color sum = new Color(new Triplet(0,0,0));
+        for (ILight light : scene.getLights()) {
+            if (light instanceof DirectionalLight) sum.addition(
+                    lambertCalcul((DirectionalLight) light,shape,d)
+            );
+        }
+        return this.calcul.colorCalcul(shape,d).addition(sum).schurProduct(shape.getDiffuse());
     }
 }

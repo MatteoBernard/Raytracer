@@ -10,7 +10,7 @@ public class Normal implements ICalcul {
     private Scenery scene;
 
     public Color getAmb() {
-        return amb;
+        return this.amb;
     }
 
     public Normal(Scenery scene) {
