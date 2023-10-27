@@ -181,5 +181,9 @@ public class SceneryBuilder implements Builder {
     public Color getAmbient() {
         return ambient;
     }
+
+    public Checker getChecker() {
+        return checker;
+    }
 }
 

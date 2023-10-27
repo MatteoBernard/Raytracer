@@ -33,7 +33,7 @@ public class Scenery {
      * @param shadowState The state of shadows in the scene (ShadowState).
      * @param ambient     The ambient color in the scene (Color).
      */
-    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient, Checker checker) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
@@ -41,6 +41,8 @@ public class Scenery {
         this.y = y;
         this.shadowState = shadowState;
         this.ambient = ambient;
+        this.checker = checker;
+        this.actualizeChecker();
     }
 
     /**
@@ -153,5 +155,9 @@ public class Scenery {
 
     public void actualizeChecker () {
         this.checker.setScene(this);
+    }
+
+    public Checker getChecker() {
+        return checker;
     }
 }
