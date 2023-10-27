@@ -45,6 +45,8 @@ public final class Parser {
         expectedParams.put("directional", 6);
         expectedParams.put("point", 6);
         expectedParams.put("maxverts", 1);
+        expectedParams.put("checker", 7);
+        expectedParams.put("maxdepth", 1);
     }
 
     // Instance attributes
@@ -392,6 +394,11 @@ public final class Parser {
                 break;
             case "shadow":
                 this.setActiveShadow(parts);
+                break;
+            case "checker" :
+                this.addChecker(parts);
+                break;
+            case "maxdepth":
                 break;
             default:
                 throw new ParserException("Incorrect entry");
