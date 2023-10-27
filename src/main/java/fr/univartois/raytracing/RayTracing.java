@@ -62,10 +62,18 @@ public class RayTracing {
                     pixelHeight = realHeight/scene.getY();
                     realWidth = scene.getX() * pixelHeight;
                     pixelWidth = realWidth/scene.getX();
-                    ICrenelage crenelage = scene.getCrenelage();
+
+                    ICrenelage crenelage;
+
+                    if (scene.getState()[0] == 0)
+                        crenelage = new Middle();
+                    else if (scene.getState()[0] == 1)
+                        crenelage = new random(scene.getState()[1]);
+                    else
+                        crenelage = new Grid(scene.getState()[1]);
+
                     D = crenelage.caclulVector(realWidth,pixelWidth,realHeight,pixelHeight,i,j,u,v,w);
                     size = D.size();
-
 
 
                     t = shape.intersect(lookFrom,D.get(0));
@@ -110,7 +118,7 @@ public class RayTracing {
         p.useParser("src/main/resources/generators/1redsph.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
-        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(), build.getCrenelage());
+        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(), build.getCrenelage(), build.getState());
 
         RayTracing rt = new RayTracing();
         rt.launch(scene,p.getOutput());
