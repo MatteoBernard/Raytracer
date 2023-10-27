@@ -1,21 +1,20 @@
 package fr.univartois.raytracing;
 
 
-import fr.univartois.raytracing.Colors.ICalcul;
-import fr.univartois.raytracing.Colors.Lambert;
-import fr.univartois.raytracing.Colors.Normal;
-import fr.univartois.raytracing.antiCrenelage.Grid;
-import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.antiCrenelage.Middle;
 import fr.univartois.raytracing.antiCrenelage.random;
+import fr.univartois.raytracing.colors.ICalcul;
+import fr.univartois.raytracing.colors.Lambert;
+import fr.univartois.raytracing.colors.Normal;
+import fr.univartois.raytracing.antiCrenelage.Grid;
+import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.numeric.Point;
-import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.parser.Parser;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.scenery.SceneryBuilder;
-import fr.univartois.raytracing.Colors.BlinnPhong;
+import fr.univartois.raytracing.colors.BlinnPhong;
 import fr.univartois.raytracing.shape.IShape;
 
 import javax.imageio.ImageIO;
