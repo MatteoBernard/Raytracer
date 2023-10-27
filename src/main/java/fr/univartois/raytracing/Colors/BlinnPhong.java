@@ -54,7 +54,7 @@ public class BlinnPhong implements ICalcul {
         for (ILight light : this.scene.getLights()) {
             if (light.getVector() != null) {
                 sum.addition(
-                        calcul.lambertCalcul((DirectionalLight) light, shape, d).addition(
+                        (calcul.lambertCalcul((DirectionalLight) light, shape, d).schurProduct(shape.getDiffuse())).addition(
                                 this.blinnPhongCalcul((DirectionalLight) light, shape, d)
                         )
                 );

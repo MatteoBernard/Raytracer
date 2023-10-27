@@ -33,9 +33,7 @@ public class Middle implements ICrenelage{
                 .addition(v.scalarMultiplication(b)))
                 .substraction(w);
         d = d.norm();
-        System.out.println(d.toString());
         this.D.add(d);
-        System.out.println(D.get(0).toString());
         return this.D;
     }
 }
