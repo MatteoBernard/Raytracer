@@ -1,5 +1,6 @@
 package fr.univartois.raytracing.scenery;
 
+import fr.univartois.raytracing.Colors.Checker;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.shadow.ShadowState;
@@ -19,6 +20,7 @@ public class Scenery {
     private int y;
     private ShadowState shadowState;
     private Color ambient;
+    private Checker checker;
 
     /**
      * Constructs a new Scenery object with the given camera, lights, shapes, rendering dimensions, shadow state, and ambient color.
@@ -147,5 +149,9 @@ public class Scenery {
      */
     public Color getAmbient() {
         return ambient;
+    }
+
+    public void actualizeChecker () {
+        this.checker.setScene(this);
     }
 }
