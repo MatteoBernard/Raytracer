@@ -1,5 +1,6 @@
 package fr.univartois.raytracing.parser;
 
+import fr.univartois.raytracing.Colors.Checker;
 import fr.univartois.raytracing.antiCrenelage.Grid;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.antiCrenelage.Middle;
@@ -153,6 +154,12 @@ public final class Parser {
      *
      * @param parts An array of string parts containing camera properties.
      */
+    private final void addChecker(String[] parts) {
+        Color col1 = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+        Color col2 = new Color(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+        this.sceneryBuilder.setChecker(new Checker(null,col1,col2));
+    }
+
     private final void addCamera(String[] parts) {
         Point lookFrom = new Point(new Triplet(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
         Point lookAt = new Point(new Triplet(Double.parseDouble(parts[4]), Double.parseDouble(parts[5]), Double.parseDouble(parts[6])));
@@ -396,6 +403,11 @@ public final class Parser {
                 break;
             case "shadow":
                 this.setActiveShadow(parts);
+                break;
+            case "checker" :
+                this.addChecker(parts);
+                break;
+            case "maxdepth": 
                 break;
             case "sampling" :
                 if (parts[1].equals("random")) {

@@ -1,5 +1,6 @@
 package fr.univartois.raytracing.scenery;
 
+import fr.univartois.raytracing.Colors.Checker;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
@@ -20,6 +21,7 @@ public class Scenery {
     private int y;
     private ShadowState shadowState;
     private Color ambient;
+    private Checker checker;
     private ICrenelage crenelage;
     private int[] state;
 
@@ -36,6 +38,7 @@ public class Scenery {
      * @param shadowState The state of shadows in the scene (ShadowState).
      * @param ambient     The ambient color in the scene (Color).
      */
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient, Checker checker) {
     public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient, ICrenelage crenelage, int[] state) {
         this.camera = camera;
         this.lights = lights;
@@ -44,6 +47,8 @@ public class Scenery {
         this.y = y;
         this.shadowState = shadowState;
         this.ambient = ambient;
+        this.checker = checker;
+        this.actualizeChecker();
         this.crenelage = crenelage;
         this.state = state;
     }
@@ -154,5 +159,13 @@ public class Scenery {
      */
     public Color getAmbient() {
         return ambient;
+    }
+
+    public void actualizeChecker () {
+        this.checker.setScene(this);
+    }
+
+    public Checker getChecker() {
+        return checker;
     }
 }

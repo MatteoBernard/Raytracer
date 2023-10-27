@@ -1,6 +1,5 @@
 package fr.univartois.raytracing.Colors;
 
-import fr.univartois.raytracing.Colors.ICalcul;
 import fr.univartois.raytracing.light.DirectionalLight;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.numeric.Color;
@@ -9,7 +8,6 @@ import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.shape.IShape;
-import fr.univartois.raytracing.shape.Sphere;
 
 /**
  * The BlinnPhong class implements the ICalcul interface for calculating colors using the Blinn-Phong shading model.
@@ -48,7 +46,7 @@ public class BlinnPhong implements ICalcul {
      * @return The calculated color.
      */
     @Override
-    public Color colorCalcul(IShape shape, Vector d) {
+    public Color colorCalcul(IShape shape, Vector d, double t) {
         Color sum = new Color(new Triplet(0, 0, 0));
 
         for (ILight light : this.scene.getLights()) {
@@ -60,7 +58,7 @@ public class BlinnPhong implements ICalcul {
                 );
             }
         }
-        return calcul.getCalcul().colorCalcul(shape, d).addition(sum);
+        return calcul.getCalcul().colorCalcul(shape, d,t).addition(sum);
     }
 
     /**
@@ -81,14 +79,14 @@ public class BlinnPhong implements ICalcul {
      * @return The calculated color.
      */
 
-    public Color blinnPhongCalcul(DirectionalLight light, IShape shape, Vector d) {
+    public Color blinnPhongCalcul(DirectionalLight light, IShape shape, Vector d, double t) {
         Vector eyedir = d.scalarMultiplication(-1.);
         Vector lightdir = light.getVector();
         Vector h = (lightdir.addition(eyedir)).norm();
 
-        Point p = (d.scalarMultiplication(shape.intersect(this.scene.getCamera().getLookFrom(), d)))
+        Point p = (d.scalarMultiplication(t))
                 .addition(this.scene.getCamera().getLookFrom());
-        double t = shape.intersect(p, lightdir);
+        t = shape.intersect(p, lightdir);
         if (t >= 0)
             p = (d.scalarMultiplication(t).addition(this.scene.getCamera().getLookFrom()));
         else return new Color(new Triplet(0,0,0));

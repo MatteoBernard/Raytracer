@@ -1,5 +1,7 @@
 package fr.univartois.raytracing.scenery;
 
+
+import fr.univartois.raytracing.Colors.Checker;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
@@ -22,6 +24,7 @@ public class SceneryBuilder implements Builder {
     private Color ambient;
     private int x;
     private int y;
+    private Checker checker;
     private ICrenelage crenelage;
 
     private int[] state;
@@ -52,7 +55,7 @@ public class SceneryBuilder implements Builder {
         this.camera = camera;
     }
 
-
+    public void setChecker(Checker checker){this.checker = checker;}
     /**
      * Sets the list of shapes for the scenery.
      *
@@ -187,6 +190,8 @@ public class SceneryBuilder implements Builder {
         return ambient;
     }
 
+    public Checker getChecker() {
+        return checker;
     /**
      * Sets the sampling method of the scenery.
      *
