@@ -115,7 +115,7 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/1redsph.txt");
+        p.useParser("src/main/resources/generators/redsph3.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
         Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(), build.getCrenelage(), build.getState());
