@@ -36,7 +36,7 @@ public class Point {
      * Subtracts two Points and returns the result as a new Vector.
      *
      * @param substract is the Point to subtract from this Point.
-     * @return A Vector representing the subtraction between the two points.
+     * @return A Vector representing the subtraction between the Point and the Vector.
      */
 
     public Vector substraction(Point substract){//we use the substraction from Triplet with an instance of Point, but it returns a Vector
