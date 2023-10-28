@@ -36,15 +36,15 @@ public class Lambert implements ICalcul {
         double a;
         Vector ldir = dlight.getVector();
         if(ldir == null) {
-                ldir = (dlight.getCoord()).substraction(p);
-        };
+                ldir = dlight.getCoord().substraction(p);
+        }
         ldir = ldir.norm();
 
         a = n.scalarProduct(ldir);
         if (a < 0)
             a=0;
 
-        ld=dlight.getColor().scalarMultiplication(a);
+        ld=((dlight.getColor()).scalarMultiplication(a)).schurProduct(shape.getDiffuse());
 
         return ld;
     }
@@ -56,6 +56,6 @@ public class Lambert implements ICalcul {
                     lambertCalcul(light,shape,d,t)
             );
         }
-        return sum.schurProduct(shape.getDiffuse());
+        return sum;
     }
 }
