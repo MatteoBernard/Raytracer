@@ -438,9 +438,7 @@ public final class Parser {
         this.openFile(fileName);
         this.processFile();
         this.sceneryBuilder.setAmbient(ambient);
-        this.sceneryBuilder.setCrenelage(crenelage);
         if (this.crenelage == null) {
-            this.crenelage = new Middle();
             this.sceneryBuilder.setState(new int[]{0, 0});
         }
         this.closeFile();
