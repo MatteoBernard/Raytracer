@@ -5,7 +5,7 @@ import fr.univartois.raytracing.colors.*;
 import fr.univartois.raytracing.antiCrenelage.Grid;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.antiCrenelage.Middle;
-import fr.univartois.raytracing.antiCrenelage.random;
+import fr.univartois.raytracing.antiCrenelage.Random;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.numeric.Color;
@@ -67,7 +67,7 @@ public class RayTracing {
                     if (scene.getState()[0] == 0)
                         crenelage = new Middle();
                     else if (scene.getState()[0] == 1)
-                        crenelage = new random(scene.getState()[1]);
+                        crenelage = new Random(scene.getState()[1]);
                     else
                         crenelage = new Grid(scene.getState()[1]);
 
@@ -127,7 +127,7 @@ public class RayTracing {
         p.useParser("src/main/resources/generators/lambert.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
-        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(),build.getCrenelage(), build.getState(), build.getChecker());
+        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(), build.getState(), build.getChecker());
 
         RayTracing rt = new RayTracing();
         rt.launch(scene,p.getOutput());

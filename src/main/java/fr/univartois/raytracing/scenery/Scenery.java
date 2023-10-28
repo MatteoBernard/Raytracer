@@ -22,7 +22,6 @@ public class Scenery {
     private ShadowState shadowState;
     private Color ambient;
     private Checker checker;
-    private ICrenelage crenelage;
     private int[] state;
 
     public int[] getState() {return state;}
@@ -39,7 +38,7 @@ public class Scenery {
      * @param ambient     The ambient color in the scene (Color).
      */
 
-    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient, ICrenelage crenelage, int[] state, Checker checker) {
+    public Scenery(Camera camera, List<ILight> lights, List<IShape> shapes, int x, int y, ShadowState shadowState, Color ambient, int[] state, Checker checker) {
         this.camera = camera;
         this.lights = lights;
         this.shapes = shapes;
@@ -49,7 +48,6 @@ public class Scenery {
         this.ambient = ambient;
         this.checker = checker;
         this.actualizeChecker();
-        this.crenelage = crenelage;
         this.state = state;
         this.checker = checker;
     }
@@ -162,10 +160,19 @@ public class Scenery {
         return ambient;
     }
 
+    /**
+     * Updates the Checker (if not null) to associate it with the current scene.
+     * This is useful for ensuring that the Checker uses the correct scene for calculations.
+     */
     public void actualizeChecker () {
         if (checker != null) this.checker.setScene(this);
     }
 
+    /**
+     * Retrieves the Checker associated with the scene.
+     *
+     * @return The Checker object associated with the scene, or null if no Checker is set.
+     */
     public Checker getChecker() {
         return checker;
     }

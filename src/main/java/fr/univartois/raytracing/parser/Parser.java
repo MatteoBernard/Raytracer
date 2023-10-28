@@ -4,7 +4,7 @@ import fr.univartois.raytracing.colors.Checker;
 import fr.univartois.raytracing.antiCrenelage.Grid;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.antiCrenelage.Middle;
-import fr.univartois.raytracing.antiCrenelage.random;
+import fr.univartois.raytracing.antiCrenelage.Random;
 import fr.univartois.raytracing.light.DirectionalLight;
 import fr.univartois.raytracing.light.PonctualLight;
 import fr.univartois.raytracing.numeric.Color;
@@ -48,6 +48,7 @@ public final class Parser {
         expectedParams.put("shininess", 1);
         expectedParams.put("directional", 6);
         expectedParams.put("point", 6);
+        expectedParams.put("shadow", 1);
         expectedParams.put("maxverts", 1);
         expectedParams.put("sampling", 2);
         expectedParams.put("checker", 7);
@@ -412,7 +413,7 @@ public final class Parser {
                 break;
             case "sampling" :
                 if (parts[1].equals("random")) {
-                    this.crenelage = new random(Integer.parseInt(parts[2]));
+                    this.crenelage = new Random(Integer.parseInt(parts[2]));
                     this.sceneryBuilder.setState(new int[]{1, Integer.parseInt(parts[2])});
                 }
 
@@ -437,9 +438,7 @@ public final class Parser {
         this.openFile(fileName);
         this.processFile();
         this.sceneryBuilder.setAmbient(ambient);
-        this.sceneryBuilder.setCrenelage(crenelage);
         if (this.crenelage == null) {
-            this.crenelage = new Middle();
             this.sceneryBuilder.setState(new int[]{0, 0});
         }
         this.closeFile();

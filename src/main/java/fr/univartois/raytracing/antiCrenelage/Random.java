@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Represents a random anti-aliasing method that calculates random vectors within each pixel.
  */
-public class random implements ICrenelage{
+public class Random implements ICrenelage{
     int nb;
     List<Vector> D= new ArrayList<>();
 
@@ -18,7 +18,7 @@ public class random implements ICrenelage{
      *
      * @param nb The number of random samples to generate within each pixel.
      */
-    public random(int nb) {
+    public Random(int nb) {
         this.nb = nb;
     }
 
