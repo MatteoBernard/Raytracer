@@ -1,7 +1,5 @@
 package fr.univartois.raytracing.colors;
 
-import fr.univartois.raytracing.colors.ICalcul;
-import fr.univartois.raytracing.light.DirectionalLight;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
@@ -9,7 +7,6 @@ import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.shape.IShape;
-import fr.univartois.raytracing.shape.Sphere;
 
 /**
  * The BlinnPhong class implements the ICalcul interface for calculating colors using the Blinn-Phong shading model.
@@ -48,19 +45,24 @@ public class BlinnPhong implements ICalcul {
      * @return The calculated color.
      */
     @Override
-    public Color colorCalcul(IShape shape, Vector d) {
-        Color sum = new Color(new Triplet(0, 0, 0));
+    public Color colorCalcul(IShape shape, Vector d, double t) {
+        Color sum = calcul.getCalcul().colorCalcul(shape, d,t);
+
+        Point p = (d.scalarMultiplication(t))
+                .addition(this.scene.getCamera().getLookFrom());
 
         for (ILight light : this.scene.getLights()) {
-            if (light.getVector() != null) {
-                sum.addition(
-                        calcul.lambertCalcul((DirectionalLight) light, shape, d).addition(
-                                this.blinnPhongCalcul((DirectionalLight) light, shape, d)
-                        )
-                );
-            }
+            Vector ldir = light.getVector();
+            if(ldir == null)ldir = light.getCoord().substraction(p);
+            t = shape.intersect(p,ldir);
+
+            sum = sum.addition(
+                    ((calcul.lambertCalcul(light, shape, d,t)).schurProduct(shape.getDiffuse())).addition(
+                            this.blinnPhongCalcul( light, shape, d,t)
+                    )
+            );
         }
-        return calcul.getCalcul().colorCalcul(shape, d).addition(sum);
+        return sum;
     }
 
     /**
@@ -81,22 +83,23 @@ public class BlinnPhong implements ICalcul {
      * @return The calculated color.
      */
 
-    public Color blinnPhongCalcul(DirectionalLight light, IShape shape, Vector d) {
-        Vector eyedir = d.scalarMultiplication(-1.);
-        Vector lightdir = light.getVector();
-        Vector h = (lightdir.addition(eyedir)).norm();
-
-        Point p = (d.scalarMultiplication(shape.intersect(this.scene.getCamera().getLookFrom(), d)))
+    public Color blinnPhongCalcul(ILight light, IShape shape, Vector d, double t) {
+        Vector eyedir = d.scalarMultiplication(-1);
+        Point p = (d.scalarMultiplication(t))
                 .addition(this.scene.getCamera().getLookFrom());
-        double t = shape.intersect(p, lightdir);
-        if (t >= 0)
-            p = (d.scalarMultiplication(t).addition(this.scene.getCamera().getLookFrom()));
-        else return new Color(new Triplet(0,0,0));
+
+        Vector ldir = light.getVector();
+        if(ldir == null)ldir = light.getCoord().substraction(p);
+        ldir=ldir.norm();
 
         Vector n = (p.substraction(shape.getCenter())).norm();
 
+        Vector r = ldir.scalarMultiplication(-1).addition(
+                n.scalarMultiplication((n.scalarProduct(ldir))*2)
+        );
+
         return light.getColor().scalarMultiplication
-                        (Math.pow(Math.max(n.scalarProduct(h), 0), shape.getShininess()))
+                        (Math.pow(Math.max(r.scalarProduct(eyedir), 0), shape.getShininess()))
                 .schurProduct(shape.getSpecular());
     }
 }

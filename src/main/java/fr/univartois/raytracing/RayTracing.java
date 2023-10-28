@@ -1,13 +1,11 @@
 package fr.univartois.raytracing;
 
 
-import fr.univartois.raytracing.antiCrenelage.Middle;
-import fr.univartois.raytracing.antiCrenelage.random;
-import fr.univartois.raytracing.colors.ICalcul;
-import fr.univartois.raytracing.colors.Lambert;
-import fr.univartois.raytracing.colors.Normal;
+import fr.univartois.raytracing.colors.*;
 import fr.univartois.raytracing.antiCrenelage.Grid;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
+import fr.univartois.raytracing.antiCrenelage.Middle;
+import fr.univartois.raytracing.antiCrenelage.Random;
 import fr.univartois.raytracing.numeric.Point;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.numeric.Color;
@@ -16,6 +14,7 @@ import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.scenery.SceneryBuilder;
 import fr.univartois.raytracing.colors.BlinnPhong;
 import fr.univartois.raytracing.shape.IShape;
+import fr.univartois.raytracing.shape.Plane;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,11 +25,9 @@ import java.util.List;
 
 public class RayTracing {
 
-    public void launch (Scenery scene,String output) {
-
-        System.out.println(scene.getCrenelage());
-
+    public void launch (Scenery scene, String output) {
         ICalcul calculMethod;
+        Checker checker = scene.getChecker();
         calculMethod = new BlinnPhong(new Lambert(new Normal(scene)));
         Vector d = null; 
 
@@ -70,15 +67,18 @@ public class RayTracing {
                     if (scene.getState()[0] == 0)
                         crenelage = new Middle();
                     else if (scene.getState()[0] == 1)
-                        crenelage = new random(scene.getState()[1]);
+                        crenelage = new Random(scene.getState()[1]);
                     else
                         crenelage = new Grid(scene.getState()[1]);
 
                     D = crenelage.caclulVector(realWidth,pixelWidth,realHeight,pixelHeight,i,j,u,v,w);
                     size = D.size();
-
-
-                    t = shape.intersect(lookFrom,D.get(0));
+                    try {
+                        t = shape.intersect(lookFrom, D.get(0));
+                    }
+                    catch (UnsupportedOperationException e){
+                        t = -1;
+                    }
                     if (t < min && t != -1) {
                         min = t;
                         currentShape=shape;
@@ -87,22 +87,29 @@ public class RayTracing {
 
                 int rgbValue = 0;
                 if (min != scene.getX()*scene.getY()) {
-                    for(int x =0;x<size;x++){
-                        Color col = calculMethod.colorCalcul(currentShape,D.get(x));
+                    if (checker != null && currentShape instanceof Plane) {
+                      Color col = checker.colorCalcul(currentShape,D.get(0),min);
                         float red = (float) (col.getTriplet().getX());
                         float green = (float) (col.getTriplet().getY());
                         float blue = (float) (col.getTriplet().getZ());
-                        java.awt.Color color = new java.awt.Color(red,blue,green);
-
-                        rgbValue += color.getRGB()/size;
-
-
+                        java.awt.Color color = new java.awt.Color(red, blue, green);
+                        rgbValue = color.getRGB();
                     }
+                    else {
+                        for (int x = 0; x < size; x++) {
+                            Color col = calculMethod.colorCalcul(currentShape, D.get(x), min);
+                            float red = (float) (col.getTriplet().getX());
+                            float green = (float) (col.getTriplet().getY());
+                            float blue = (float) (col.getTriplet().getZ());
+                            java.awt.Color color = new java.awt.Color(red, blue, green);
+
+                            rgbValue += color.getRGB() / size;
+                        }
+                }
 
                     image.setRGB(i,j,rgbValue);}
                 else {
-                    image.setRGB(i,j,0);
-                }
+                    image.setRGB(i,j,0);}
             }
         }
         try {
@@ -117,10 +124,10 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/1redsph.txt");
+        p.useParser("src/main/resources/generators/lambert.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
-        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(), build.getCrenelage(), build.getState());
+        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(), build.getState(), build.getChecker());
 
         RayTracing rt = new RayTracing();
         rt.launch(scene,p.getOutput());

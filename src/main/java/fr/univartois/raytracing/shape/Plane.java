@@ -65,17 +65,30 @@ public class Plane implements IShape{
     public void setNormal(Vector normal) {
         this.normal = normal;
     }
-
+    /**
+     * Retrieves the diffuse color of the shape, which represents its surface color.
+     *
+     * @return The diffuse color of the shape.
+     */
     @Override
     public Color getDiffuse() {
         return diffuse;
     }
 
+    /**
+     * Retrieves the specular color of the shape, which represents its highlight color.
+     *
+     * @return The specular color of the shape.
+     */
     @Override
     public Color getSpecular() {
         return specular;
     }
-
+    /**
+     * Retrieves the shininess of the shape's surface, affecting the intensity of specular highlights.
+     *
+     * @return The shininess of the shape.
+     */
     @Override
     public int getShininess() {
         return shininess;
@@ -101,7 +114,11 @@ public class Plane implements IShape{
         t=t/d.scalarProduct(this.normal);
         return t;
     }
-
+    /**
+     * Retrieves the center point of the plane.
+     *
+     * @return The center point of the shape, or null if not applicable.
+     */
     @Override
     public Point getCenter() {
         return null;

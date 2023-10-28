@@ -19,7 +19,7 @@ public class Normal implements ICalcul {
     }
 
     @Override
-    public Color colorCalcul(IShape shape, Vector d) {
+    public Color colorCalcul(IShape shape, Vector d, double t) {
         return this.getAmb();
     }
 
