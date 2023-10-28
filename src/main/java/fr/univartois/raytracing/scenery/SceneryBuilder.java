@@ -1,7 +1,7 @@
 package fr.univartois.raytracing.scenery;
 
 
-import fr.univartois.raytracing.Colors.Checker;
+import fr.univartois.raytracing.colors.Checker;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.light.ILight;
@@ -190,8 +190,14 @@ public class SceneryBuilder implements Builder {
         return ambient;
     }
 
+    /**
+     * Retrieves the checker of the scenery.
+     *
+     * @return The checker in the scene (Checker).
+     */
     public Checker getChecker() {
         return checker;
+    }
     /**
      * Sets the sampling method of the scenery.
      *
@@ -210,5 +216,7 @@ public class SceneryBuilder implements Builder {
     public ICrenelage getCrenelage() {
         return this.crenelage;
     }
+
+
 }
 

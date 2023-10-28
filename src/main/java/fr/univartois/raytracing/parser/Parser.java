@@ -1,6 +1,6 @@
 package fr.univartois.raytracing.parser;
 
-import fr.univartois.raytracing.Colors.Checker;
+import fr.univartois.raytracing.colors.Checker;
 import fr.univartois.raytracing.antiCrenelage.Grid;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.antiCrenelage.Middle;
