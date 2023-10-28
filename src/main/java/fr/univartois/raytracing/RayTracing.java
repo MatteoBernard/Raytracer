@@ -1,19 +1,18 @@
 package fr.univartois.raytracing;
 
 
-import fr.univartois.raytracing.Colors.*;
+import fr.univartois.raytracing.colors.*;
 import fr.univartois.raytracing.antiCrenelage.Grid;
 import fr.univartois.raytracing.antiCrenelage.ICrenelage;
 import fr.univartois.raytracing.antiCrenelage.Middle;
 import fr.univartois.raytracing.antiCrenelage.random;
 import fr.univartois.raytracing.numeric.Point;
-import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.parser.Parser;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.scenery.SceneryBuilder;
-import fr.univartois.raytracing.Colors.BlinnPhong;
+import fr.univartois.raytracing.colors.BlinnPhong;
 import fr.univartois.raytracing.shape.IShape;
 import fr.univartois.raytracing.shape.Plane;
 
@@ -89,7 +88,7 @@ public class RayTracing {
                 int rgbValue = 0;
                 if (min != scene.getX()*scene.getY()) {
                     if (checker != null && currentShape instanceof Plane) {
-                        Color col = checker.colorCalcul(currentShape,D.get(0),min);
+                      Color col = checker.colorCalcul(currentShape,D.get(0),min);
                         float red = (float) (col.getTriplet().getX());
                         float green = (float) (col.getTriplet().getY());
                         float blue = (float) (col.getTriplet().getZ());
@@ -106,7 +105,7 @@ public class RayTracing {
 
                             rgbValue += color.getRGB() / size;
                         }
-                    }
+                }
 
                     image.setRGB(i,j,rgbValue);}
                 else {
@@ -125,10 +124,10 @@ public class RayTracing {
 
     public static void main(String[] args) throws Exception {
         Parser p = new Parser();
-        p.useParser("src/main/resources/generators/1redsph.txt");
+        p.useParser("src/main/resources/generators/lambert.txt");
         SceneryBuilder build = p.getSceneryBuilder();
 
-        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(),build.getChecker());
+        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(),build.getCrenelage(), build.getState(), build.getChecker());
 
         RayTracing rt = new RayTracing();
         rt.launch(scene,p.getOutput());

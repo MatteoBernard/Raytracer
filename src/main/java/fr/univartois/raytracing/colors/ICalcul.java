@@ -1,4 +1,4 @@
-package fr.univartois.raytracing.Colors;
+package fr.univartois.raytracing.colors;
 
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Vector;
@@ -10,6 +10,6 @@ public interface ICalcul {
 
     Color colorCalcul(IShape shape, Vector d, double t);
 
-    public Scenery getScene();
+    Scenery getScene();
 
 }
