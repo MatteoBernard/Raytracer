@@ -25,12 +25,7 @@ public class SceneryBuilder implements Builder {
     private int x;
     private int y;
     private Checker checker;
-    private ICrenelage crenelage;
-
     private int[] state;
-
-    public int[] getState() {return state;}
-    public void setState(int[] state) {this.state=state;}
 
     /**
      * Constructs a new SceneryBuilder with the specified horizontal and vertical rendering dimensions (x and y).
@@ -55,6 +50,11 @@ public class SceneryBuilder implements Builder {
         this.camera = camera;
     }
 
+    /**
+     * Sets the checker for the scenery.
+     *
+     * @param checker The Checker object to set for the scene.
+     */
     public void setChecker(Checker checker){this.checker = checker;}
     /**
      * Sets the list of shapes for the scenery.
@@ -114,6 +114,11 @@ public class SceneryBuilder implements Builder {
         return lights;
     }
 
+    /**
+     * Retrieves the camera object in the scenery.
+     *
+     * @return The camera object in the scene.
+     */
     public Camera getCamera() {
         return this.camera;
     }
@@ -198,25 +203,19 @@ public class SceneryBuilder implements Builder {
     public Checker getChecker() {
         return checker;
     }
-    /**
-     * Sets the sampling method of the scenery.
-     *
-     * @param crenelage The sampling method for the scenery
-     */
-    public void setCrenelage(ICrenelage crenelage) {
-        this.crenelage = crenelage;
-    }
 
     /**
-     * Retrieves the sampling method of the scenery.
+     * Retrieves the current state of the antialiasing
      *
-     * @return The sampling method in the scene .
+     * @return An array of integers representing the state.
      */
+    public int[] getState() {return state;}
 
-    public ICrenelage getCrenelage() {
-        return this.crenelage;
-    }
-
-
+    /**
+     * Sets the state using a given array of integers.
+     *
+     * @param state The array of integers to use as the new state of the antialiasing.
+     */
+    public void setState(int[] state) {this.state=state;}
 }
 
