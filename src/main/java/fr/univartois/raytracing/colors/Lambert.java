@@ -1,6 +1,5 @@
-package fr.univartois.raytracing.Colors;
+package fr.univartois.raytracing.colors;
 
-import fr.univartois.raytracing.light.DirectionalLight;
 import fr.univartois.raytracing.light.ILight;
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Point;
@@ -8,7 +7,6 @@ import fr.univartois.raytracing.numeric.Triplet;
 import fr.univartois.raytracing.numeric.Vector;
 import fr.univartois.raytracing.scenery.Scenery;
 import fr.univartois.raytracing.shape.IShape;
-import fr.univartois.raytracing.shape.Sphere;
 
 public class Lambert implements ICalcul {
     private Normal calcul;
@@ -27,17 +25,22 @@ public class Lambert implements ICalcul {
         return scene;
     }
 
-    public Color lambertCalcul(DirectionalLight dlight,IShape shape,Vector d, double t) {
+    public Color lambertCalcul(ILight dlight,IShape shape,Vector d, double t) {
         Vector n;
         Color ld;
         Point o = scene.getCamera().getLookFrom();
-        Point p = d.scalarMultiplication(t).addition(o);
+        Point p = (d.scalarMultiplication(t)).addition(o);
         n = p.substraction(shape.getCenter());
         n=n.norm();
 
         double a;
+        Vector ldir = dlight.getVector();
+        if(ldir == null) {
+                ldir = (dlight.getCoord()).substraction(p);
+        };
+        ldir = ldir.norm();
 
-        a = n.scalarProduct(dlight.getVector().norm());
+        a = n.scalarProduct(ldir);
         if (a < 0)
             a=0;
 
@@ -47,12 +50,12 @@ public class Lambert implements ICalcul {
     }
     @Override
     public Color colorCalcul(IShape shape, Vector d, double t) {
-        Color sum = new Color(new Triplet(0,0,0));
+        Color sum = calcul.colorCalcul(shape,d,t);
         for (ILight light : scene.getLights()) {
-            if (light instanceof DirectionalLight) sum.addition(
-                    lambertCalcul((DirectionalLight) light,shape,d,t)
+            sum = sum.addition(
+                    lambertCalcul(light,shape,d,t)
             );
         }
-        return this.calcul.colorCalcul(shape,d).addition(sum.schurProduct(shape.getDiffuse()));
+        return sum.schurProduct(shape.getDiffuse());
     }
 }

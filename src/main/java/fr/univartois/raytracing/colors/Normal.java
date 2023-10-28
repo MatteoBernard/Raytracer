@@ -1,4 +1,4 @@
-package fr.univartois.raytracing.Colors;
+package fr.univartois.raytracing.colors;
 
 import fr.univartois.raytracing.numeric.Color;
 import fr.univartois.raytracing.numeric.Vector;
