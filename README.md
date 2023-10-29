@@ -40,7 +40,7 @@ Pour répartir les tâches, après avoir lu le sujet au complet, nous avons pris
 
 | Antoine                                 | Axel           | Jean-Alexis                        | Mattéo                           |
 |-----------------------------------------|----------------|------------------------------------|----------------------------------|
-| Manipulation de <br>triplets numériques | à compléter    | Manipulation de <br>triplets numériques                                 | Création du parser               |
+| Manipulation de <br>triplets numériques | à compléter    | RayTracing           | Création du parser               |
 | Ajout des lumières <br>et des couleurs  | Anti-crénelage | Texture procédurale :<br>le damier | Des ombres et <br>des réflexions |
 
 #### En dehors des taches de programmations, ils y'a eu aussi d'autres taches qui ont été prises par les membres :
