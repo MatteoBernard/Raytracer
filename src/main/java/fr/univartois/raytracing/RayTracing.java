@@ -23,13 +23,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The RayTracing class is responsible for rendering an image using the Ray Tracing technique.
+ */
 public class RayTracing {
 
+    /**
+     * Launches the rendering process for a given scene and saves the image to the specified output file.
+     *
+     * @param scene   The scenery to render.
+     * @param output  The name of the output image file.
+     */
     public void launch (Scenery scene, String output) {
         ICalcul calculMethod;
         Checker checker = scene.getChecker();
-        calculMethod = new BlinnPhong(new Lambert(new Normal(scene)));
-        Vector d = null; 
+        calculMethod = initializeCalculMethod(scene);
 
         BufferedImage image = new BufferedImage(scene.getX(),scene.getY(),BufferedImage.TYPE_INT_RGB);
         Point lookFrom = scene.getCamera().getLookFrom();
@@ -88,7 +96,7 @@ public class RayTracing {
                 int rgbValue = 0;
                 if (min != scene.getX()*scene.getY()) {
                     if (checker != null && currentShape instanceof Plane) {
-                      Color col = checker.colorCalcul(currentShape,D.get(0),min);
+                        Color col = checker.colorCalcul(currentShape,D.get(0),min);
                         float red = (float) (col.getTriplet().getX());
                         float green = (float) (col.getTriplet().getY());
                         float blue = (float) (col.getTriplet().getZ());
@@ -105,31 +113,39 @@ public class RayTracing {
 
                             rgbValue += color.getRGB() / size;
                         }
-                }
+                    }
 
                     image.setRGB(i,j,rgbValue);}
                 else {
                     image.setRGB(i,j,0);}
             }
         }
+        this.saveImageToOutput(image, output);
+    }
+
+    /**
+     * Saves the provided image to the specified output file in PNG format.
+     *
+     * @param image   The image to save.
+     * @param output  The name of the output image file.
+     */
+    private void saveImageToOutput(BufferedImage image, String output) {
         try {
-            // Retrieve image
-            File outputfile = new File("src/main/resources/images/"+output);
+            // Save the image to the output file.
+            File outputfile = new File("src/main/resources/images/" + output);
             ImageIO.write(image, "png", outputfile);
         } catch (IOException e) {
-            System.err.println("erreur");
+            System.err.println("Error");
         }
     }
 
-
-    public static void main(String[] args) throws Exception {
-        Parser p = new Parser();
-        p.useParser("src/main/resources/generators/lambert.txt");
-        SceneryBuilder build = p.getSceneryBuilder();
-
-        Scenery scene = new Scenery(build.getCamera(),build.getLights(),build.getShapes(),build.getX(),build.getY(),build.getShadowState(), build.getAmbient(), build.getState(), build.getChecker());
-
-        RayTracing rt = new RayTracing();
-        rt.launch(scene,p.getOutput());
+    /**
+     * Initializes the calculation method for rendering based on the scene.
+     *
+     * @param scene  The scene for which rendering calculations will be performed.
+     * @return       The initialized calculation method.
+     */
+    private ICalcul initializeCalculMethod(Scenery scene) {
+        return new BlinnPhong(new Lambert(new Normal(scene)));
     }
 }

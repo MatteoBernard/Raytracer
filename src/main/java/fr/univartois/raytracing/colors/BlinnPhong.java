@@ -52,15 +52,18 @@ public class BlinnPhong implements ICalcul {
                 .addition(this.scene.getCamera().getLookFrom());
 
         for (ILight light : this.scene.getLights()) {
-            Vector ldir = light.getVector();
-            if(ldir == null)ldir = light.getCoord().substraction(p);
-            t = shape.intersect(p,ldir);
+
 
             sum = sum.addition(
-                    ((calcul.lambertCalcul(light, shape, d,t)).schurProduct(shape.getDiffuse())).addition(
+                    ((calcul.lambertCalcul(light, shape, d,t))).addition(
                             this.blinnPhongCalcul( light, shape, d,t)
                     )
             );
+
+            if (sum.getTriplet().getX()==0.5
+                    && sum.getTriplet().getY()==0.5
+                    && sum.getTriplet().getZ()==0.5f) {
+            }
         }
         return sum;
     }
@@ -89,7 +92,7 @@ public class BlinnPhong implements ICalcul {
                 .addition(this.scene.getCamera().getLookFrom());
 
         Vector ldir = light.getVector();
-        if(ldir == null)ldir = light.getCoord().substraction(p);
+        if(ldir == null)ldir = p.substraction(light.getCoord());
         ldir=ldir.norm();
 
         Vector n = (p.substraction(shape.getCenter())).norm();
@@ -98,8 +101,7 @@ public class BlinnPhong implements ICalcul {
                 n.scalarMultiplication((n.scalarProduct(ldir))*2)
         );
 
-        return light.getColor().scalarMultiplication
-                        (Math.pow(Math.max(r.scalarProduct(eyedir), 0), shape.getShininess()))
-                .schurProduct(shape.getSpecular());
+        return (shape.getSpecular()).schurProduct((light.getColor()).scalarMultiplication
+                        (Math.pow(Math.max(r.scalarProduct(eyedir), 0), shape.getShininess())));
     }
 }
