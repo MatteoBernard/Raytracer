@@ -1,5 +1,7 @@
 # SAE S3.A.01 - Lanceur de rayon
 
+Projet universitaire : Création d'un générateur d'images avec "raytracing".
+Réalisé en groupe de 4.
   
 
 ## Sommaire
@@ -8,9 +10,8 @@
 - [Diagramme UML](#Diagramme-UML)
 - [Récapitulatif du projet](#Récapitulatif-du-projet)
 - [Répartition des tâches](#Répartition-des-tâches)
-- [Conclusion](#Conclusion)
 
-  
+
 
 ## Membres
 - Antoine Crauser
@@ -63,16 +64,3 @@ Pour répartir les tâches, après avoir lu le sujet au complet, nous avons pris
 	-Gestion d'issues et de merge requests<br>
 	-Diagramme UML<br>
 	-Gestion de conflits Git
-	
-
-## Conclusion 
-
-Le travail d'équipe a été central, à travers la cohabitation des fonctionnalités que chacun développe. <br>
-Nous avons dû faire face à la gestion du temps, à la répartition des tâches et à la gestion de projet. <br>
-Nous avons pu également prendre en expérience vis-à-vis de Git, notamment avec les branches, les merge requests et les issues. <br>
-Enfin, nous avons pris en expérience en algorithmie, de part l'implantation de patrons de conception, ainsi que de l'application des conventions de base de Java, telles que l'encapsulation, le polymorphisme ou encore la gestion de paquets.
-
-Malgré de nombreuses difficultés rencontrées et pas toujours surmontées, nous avons continué jusqu'au bout en restant concentrés et en nous entraidant.
-
-
-	
